@@ -13,7 +13,7 @@ Update or cancel bookings.
 Perform guest check-in and check-out operations.
 Monitor room availability and occupancy.
 
-# Hotel Manager / Administrator
+# Hotel Manager / Administrator 
 Add, update, and manage room information.
 Monitor all reservations and booking history.
 Track room occupancy and availability.
