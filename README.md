@@ -19,3 +19,20 @@ Monitor all reservations and booking history.
 Track room occupancy and availability.
 Manage booking workflows and room allocation.
 Access reports and overall system statistics.
+
+Technologies Used
+Backend
+Python
+FastAPI
+Pydantic
+Database
+PostgreSQL
+Frontend
+HTML
+CSS
+JavaScript
+Version Control
+Git
+GitHub
+Development Environment
+VS Code
