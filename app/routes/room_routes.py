@@ -1,28 +1,131 @@
 from fastapi import APIRouter
 from app.schemas.room_schema import RoomCreate
+from app.models.room import Room
+from app.database.db import SessionLocal
 
 router = APIRouter()
 
+
+# ---------------- GET ALL ROOMS ----------------
+
 @router.get("/rooms")
 def get_rooms():
-    return {"message": "All Rooms"}
+
+    db = SessionLocal()
+
+    #rooms = db.query(Room).all()
+    rooms = db.query(Room).order_by(Room.room_id).all()
+    
+    result = []
+
+    for room in rooms:
+        result.append(
+            {
+                "room_id": room.room_id,
+                "room_number": room.room_number,
+                "room_type": room.room_type,
+                "price": float(room.price),
+                "status": room.status
+            }
+        )
+
+    db.close()
+
+    return result
+
+
+# ---------------- CREATE ROOM ----------------
 
 @router.post("/rooms")
 def create_room(room: RoomCreate):
+
+    db = SessionLocal()
+
+    new_room = Room(
+        room_number=room.room_number,
+        room_type=room.room_type,
+        price=room.price,
+        status=room.status
+    )
+
+    db.add(new_room)
+    db.commit()
+    db.refresh(new_room)
+
+    result = {
+        "room_id": new_room.room_id,
+        "room_number": new_room.room_number,
+        "room_type": new_room.room_type,
+        "price": float(new_room.price),
+        "status": new_room.status
+    }
+
+    db.close()
+
     return {
         "message": "Room Created Successfully",
-        "data": room
+        "data": result
     }
+
+
+# ---------------- UPDATE ROOM ----------------
 
 @router.put("/rooms/{room_id}")
 def update_room(room_id: int, room: RoomCreate):
-    return {
-        "message": f"Room {room_id} Updated Successfully",
-        "data": room
+
+    db = SessionLocal()
+
+    existing_room = db.query(Room).filter(
+        Room.room_id == room_id
+    ).first()
+
+    if not existing_room:
+        db.close()
+        return {"message": "Room Not Found"}
+
+    existing_room.room_number = room.room_number
+    existing_room.room_type = room.room_type
+    existing_room.price = room.price
+    existing_room.status = room.status
+
+    db.commit()
+
+    result = {
+        "room_id": existing_room.room_id,
+        "room_number": existing_room.room_number,
+        "room_type": existing_room.room_type,
+        "price": float(existing_room.price),
+        "status": existing_room.status
     }
+
+    db.close()
+
+    return {
+        "message": "Room Updated Successfully",
+        "data": result
+    }
+
+
+# ---------------- DELETE ROOM ----------------
 
 @router.delete("/rooms/{room_id}")
 def delete_room(room_id: int):
+
+    db = SessionLocal()
+
+    room = db.query(Room).filter(
+        Room.room_id == room_id
+    ).first()
+
+    if not room:
+        db.close()
+        return {"message": "Room Not Found"}
+
+    db.delete(room)
+    db.commit()
+
+    db.close()
+
     return {
-        "message": f"Room {room_id} Deleted Successfully"
+        "message": "Room Deleted Successfully"
     }
