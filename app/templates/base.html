@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel Management System</title>
+
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <link rel="stylesheet"
+    href="{{ url_for('static', path='css/style.css') }}">
+</head>
+
+<body>
+
+<div class="layout">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+
+        <div class="logo-section">
+            <h2>Hotel Management</h2>
+            <p>Admin Panel</p>
+        </div>
+
+        <ul class="menu">
+
+            <li>
+                <a href="/dashboard"
+                   class="{% if active_page == 'dashboard' %}active{% endif %}">
+                    <i class="fa-solid fa-house"></i>
+                    Dashboard
+                </a>
+            </li>
+
+            <li>
+                <a href="/rooms-page"
+                   class="{% if active_page == 'rooms' %}active{% endif %}">
+                    <i class="fa-solid fa-bed"></i>
+                    Rooms
+                </a>
+            </li>
+
+            <li>
+                <a href="/bookings-page"
+                   class="{% if active_page == 'bookings' %}active{% endif %}">
+                    <i class="fa-solid fa-calendar-check"></i>
+                    Bookings
+                </a>
+            </li>
+
+            <li>
+                <a href="/customers-page"
+                   class="{% if active_page == 'customers' %}active{% endif %}">
+                    <i class="fa-solid fa-users"></i>
+                    Customers
+                </a>
+            </li>
+
+            <li>
+                <a href="#">
+                    <i class="fa-solid fa-chart-line"></i>
+                    Reports
+                </a>
+            </li>
+
+            <li>
+                <a href="#">
+                    <i class="fa-solid fa-gear"></i>
+                    Settings
+                </a>
+            </li>
+
+            <li>
+                <a href="/">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    Logout
+                </a>
+            </li>
+
+        </ul>
+
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+
+        {% block content %}
+        {% endblock %}
+
+    </main>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,515 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    background:#f8f9fc;
+}
+
+/* ================= NAVBAR ================= */
+
+.navbar{
+    height:80px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:0 70px;
+    background:white;
+    box-shadow:0 2px 10px rgba(0,0,0,0.1);
+    position:sticky;
+    top:0;
+    z-index:1000;
+}
+
+.logo{
+    font-size:32px;
+    font-weight:bold;
+    color:#d4a017;
+}
+
+.nav-links{
+    display:flex;
+    list-style:none;
+    gap:35px;
+}
+
+.nav-links a{
+    text-decoration:none;
+    color:#222;
+    font-weight:600;
+    transition:0.3s;
+}
+
+.nav-links a:hover{
+    color:#163b7d;
+}
+
+.nav-actions{
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+#welcomeUser{
+    font-size:16px;
+    font-weight:600;
+    color:#163b7d;
+}
+
+/* ================= PROFILE BUTTON ================= */
+
+.profile-btn{
+    padding:12px 24px;
+    border:none;
+    background:#0d2f6f;
+    color:white;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:bold;
+    transition:0.3s;
+}
+
+.profile-btn:hover{
+    background:#163b7d;
+}
+
+/* ================= LOGOUT BUTTON ================= */
+
+.logout-btn{
+    background:crimson;
+    color:white;
+    border:none;
+    padding:12px 20px;
+    border-radius:8px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.logout-btn:hover{
+    background:#a0002a;
+}
+
+/* ================= HERO ================= */
+
+.hero{
+    height:650px;
+    background:url("https://images.unsplash.com/photo-1566073771259-6a8506099945");
+    background-size:cover;
+    background-position:center;
+}
+
+.overlay{
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.50);
+    display:flex;
+    align-items:center;
+}
+
+.hero-content{
+    color:white;
+    margin-left:80px;
+    max-width:650px;
+}
+
+.hero-content h4{
+    color:#ffd54f;
+    margin-bottom:20px;
+    font-size:24px;
+}
+
+.hero-content h1{
+    font-size:70px;
+    line-height:1.1;
+    margin-bottom:25px;
+}
+
+.hero-content p{
+    font-size:20px;
+}
+
+/* ================= SEARCH CARD ================= */
+
+.search-box{
+    display:flex;
+    justify-content:center;
+    margin-top:-70px;
+}
+
+.search-card{
+    width:85%;
+    background:white;
+    border-radius:20px;
+    padding:30px;
+    display:flex;
+    gap:25px;
+    align-items:end;
+    box-shadow:0 10px 30px rgba(0,0,0,0.15);
+}
+
+.field{
+    flex:1;
+}
+
+.field label{
+    display:block;
+    margin-bottom:10px;
+    font-weight:bold;
+}
+
+.field input,
+.field select{
+    width:100%;
+    padding:14px;
+    border:1px solid #ddd;
+    border-radius:8px;
+}
+
+.search-btn{
+    padding:15px 30px;
+    background:#0d2f6f;
+    color:white;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    font-weight:bold;
+    transition:0.3s;
+}
+
+.search-btn:hover{
+    background:#163b7d;
+}
+
+/* ================= FEATURED ROOMS ================= */
+
+/* Featured Rooms */
+
+.featured-rooms{
+
+    padding:100px 80px;
+
+    background:#ffffff;
+}
+
+.featured-rooms h2{
+
+    text-align:center;
+
+    font-size:48px;
+
+    color:#163b7d;
+
+    margin-bottom:60px;
+}
+
+.room-cards{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(auto-fit,minmax(280px,1fr));
+
+    gap:30px;
+}
+
+.room-card{
+
+    background:white;
+
+    border-radius:18px;
+
+    overflow:hidden;
+
+    box-shadow:
+    0 8px 25px rgba(0,0,0,0.12);
+
+    transition:0.3s;
+}
+
+.room-card:hover{
+
+    transform:translateY(-10px);
+}
+
+.room-card img{
+
+    width:100%;
+
+    height:220px;
+
+    object-fit:cover;
+}
+
+.room-card h3{
+
+    color:#163b7d;
+
+    padding:20px 20px 10px;
+
+    font-size:24px;
+}
+
+.room-card p{
+
+    padding:0 20px 25px;
+
+    color:#555;
+
+    line-height:1.6;
+}
+/* About Section */
+
+.about-section{
+
+    padding:100px 80px;
+
+    background:#f8f9fc;
+}
+
+.about-container{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:60px;
+}
+
+.about-image{
+
+    flex:1;
+}
+
+.about-image img{
+
+    width:100%;
+
+    border-radius:20px;
+
+    box-shadow:
+    0 10px 30px rgba(0,0,0,0.15);
+}
+
+.about-content{
+
+    flex:1;
+}
+
+.about-content h2{
+
+    font-size:48px;
+
+    color:#163b7d;
+
+    margin-bottom:25px;
+}
+
+.about-content p{
+
+    font-size:18px;
+
+    line-height:1.8;
+
+    color:#555;
+
+    margin-bottom:20px;
+}
+/* ================= SERVICES ================= */
+/* Services Section */
+
+.services-section{
+
+    padding:100px 80px;
+
+    background:#ffffff;
+}
+
+.services-section h2{
+
+    text-align:center;
+
+    font-size:48px;
+
+    color:#163b7d;
+
+    margin-bottom:60px;
+}
+
+.services-grid{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(auto-fit,minmax(250px,1fr));
+
+    gap:30px;
+}
+
+.service-card{
+
+    background:white;
+
+    padding:35px 25px;
+
+    text-align:center;
+
+    border-radius:20px;
+
+    box-shadow:
+    0 8px 25px rgba(0,0,0,0.10);
+
+    transition:0.3s;
+}
+
+.service-card:hover{
+
+    transform:translateY(-10px);
+
+    box-shadow:
+    0 12px 30px rgba(0,0,0,0.15);
+}
+
+.service-icon{
+
+    font-size:50px;
+
+    margin-bottom:20px;
+}
+
+.service-card h3{
+
+    color:#163b7d;
+
+    margin-bottom:15px;
+
+    font-size:24px;
+}
+
+.service-card p{
+
+    color:#666;
+
+    line-height:1.6;
+}
+/* ================= CONTACT ================= */
+/* Contact Section */
+
+.contact-section{
+
+    padding:100px 80px;
+
+    background:#f8f9fc;
+}
+
+.contact-section h2{
+
+    text-align:center;
+
+    font-size:48px;
+
+    color:#163b7d;
+
+    margin-bottom:60px;
+}
+
+.contact-container{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(auto-fit,minmax(280px,1fr));
+
+    gap:30px;
+}
+
+.contact-card{
+
+    background:white;
+
+    text-align:center;
+
+    padding:40px 25px;
+
+    border-radius:20px;
+
+    box-shadow:
+    0 8px 25px rgba(0,0,0,0.10);
+
+    transition:0.3s;
+}
+
+.contact-card:hover{
+
+    transform:translateY(-10px);
+}
+
+.contact-icon{
+
+    font-size:50px;
+
+    margin-bottom:20px;
+}
+
+.contact-card h3{
+
+    color:#163b7d;
+
+    margin-bottom:15px;
+}
+
+.contact-card p{
+
+    color:#555;
+
+    font-size:18px;
+}
+/* ================= FOOTER ================= */
+
+.footer{
+    background:#0d2f6f;
+    color:white;
+    text-align:center;
+    padding:25px;
+    font-size:15px;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:900px){
+
+    .navbar{
+        padding:20px;
+        flex-direction:column;
+        height:auto;
+        gap:15px;
+    }
+
+    .nav-links{
+        flex-wrap:wrap;
+        justify-content:center;
+    }
+
+    .hero-content{
+        margin-left:30px;
+        margin-right:20px;
+    }
+
+    .hero-content h1{
+        font-size:48px;
+    }
+
+    .search-card{
+        flex-direction:column;
+    }
+
+    .search-btn{
+        width:100%;
+    }
+}

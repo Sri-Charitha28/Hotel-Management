@@ -1,7 +1,17 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Request
+from fastapi.templating import Jinja2Templates
 from app.schemas.room_schema import RoomCreate
 from app.models.room import Room
 from app.database.db import SessionLocal
+from fastapi import Query
+from app.models.booking import Booking
+from datetime import date
+
+templates = Jinja2Templates(directory="app/templates")
+
+templates = Jinja2Templates(
+    directory="app/templates"
+)
 
 router = APIRouter()
 
@@ -32,7 +42,47 @@ def get_rooms():
     db.close()
 
     return result
+@router.get("/available-rooms")
+def get_available_rooms(
+    check_in: date = Query(...),
+    check_out: date = Query(...)
+):
 
+    db = SessionLocal()
+
+    booked_room_ids = db.query(
+        Booking.room_id
+    ).filter(
+        Booking.check_in < check_out,
+        Booking.check_out > check_in
+    ).all()
+
+    booked_room_ids = [
+        room[0]
+        for room in booked_room_ids
+    ]
+
+    rooms = db.query(Room).filter(
+        ~Room.room_id.in_(booked_room_ids)
+    ).all()
+
+    result = []
+
+    for room in rooms:
+
+        result.append(
+            {
+                "room_id": room.room_id,
+                "room_number": room.room_number,
+                "room_type": room.room_type,
+                "price": float(room.price),
+                "status": "available"
+            }
+        )
+
+    db.close()
+
+    return result
 
 # ---------------- CREATE ROOM ----------------
 
@@ -129,3 +179,18 @@ def delete_room(room_id: int):
     return {
         "message": "Room Deleted Successfully"
     }
+@router.get("/my-bookings")
+def my_bookings_page(
+    request: Request
+):
+    return templates.TemplateResponse(
+        request=request,
+        name="my_bookings.html"
+    )
+@router.get("/profile")
+def profile_page(request: Request):
+
+    return templates.TemplateResponse(
+        request=request,
+        name="profile.html"
+    )

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Bookings</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', path='css/my_bookings.css') }}">
+    <link rel="stylesheet"
+          href="{{ url_for('static', path='css/navbar.css') }}">    
+</head>
+<body>
+
+ {% include "navbar.html" %}
+    <!-- Header -->
+
+    <div class="page-header">
+
+        
+
+        
+        <div class="booking-banner">
+
+    <h1>My Bookings</h1>
+
+    <p>
+        View and manage all your hotel bookings in one place
+    </p>
+
+</div>
+
+    </div>
+
+    <!-- Statistics -->
+
+    <div class="stats-container">
+
+        <div class="stat-card">
+
+            <h3>
+                Total Bookings
+            </h3>
+
+            <span id="totalBookings">
+                0
+            </span>
+
+        </div>
+
+        <div class="stat-card">
+
+            <h3>
+                Active Bookings
+            </h3>
+
+            <span id="activeBookings">
+                0
+            </span>
+
+        </div>
+
+        <div class="stat-card">
+
+            <h3>
+                Completed
+            </h3>
+
+            <span id="completedBookings">
+                0
+            </span>
+
+        </div>
+
+        <div class="stat-card">
+
+            <h3>
+                Cancelled
+            </h3>
+
+            <span id="cancelledBookings">
+                0
+            </span>
+
+        </div>
+
+    </div>
+<div class="filters-section">
+
+    <div class="filter-buttons">
+
+        <button
+            class="filter-btn active"
+            onclick="filterBookings('all', this)"
+        >
+            All Bookings
+        </button>
+
+        <button
+            class="filter-btn"
+            onclick="filterBookings('booked', this)"
+        >
+            Active Bookings
+        </button>
+
+        <button
+            class="filter-btn"
+            onclick="filterBookings('completed', this)"
+        >
+            Past Bookings
+        </button>
+
+        <button
+            class="filter-btn"
+            onclick="filterBookings('cancelled', this)"
+        >
+            Cancelled
+        </button>
+
+    </div>
+
+    <select
+        id="sortBookings"
+        onchange="sortBookings()"
+    >
+        <option value="latest">
+            Latest First
+        </option>
+
+        <option value="oldest">
+            Oldest First
+        </option>
+    </select>
+
+</div>
+    <!-- Booking Cards -->
+
+    <div id="bookingsContainer">
+
+    </div>
+
+    <script src="{{ url_for('static', path='js/my_bookings.js') }}"></script>
+
+</body>
+</html>

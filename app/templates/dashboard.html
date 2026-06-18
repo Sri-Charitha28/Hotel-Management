@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="page-header">
+    <h1>Dashboard</h1>
+
+    <div class="admin-profile">
+        <i class="fa-solid fa-user"></i>
+        Admin
+    </div>
+</div>
+
+<div class="stats-grid">
+
+    <div class="card rooms-card">
+        <h3>Total Rooms</h3>
+        <div class="card-value" id="totalRooms">0</div>
+    </div>
+
+    <div class="card bookings-card">
+        <h3>Total Bookings</h3>
+        <div class="card-value" id="totalBookings">0</div>
+    </div>
+
+    <div class="card customers-card">
+        <h3>Total Customers</h3>
+        <div class="card-value" id="totalCustomers">0</div>
+    </div>
+
+    <div class="card revenue-card">
+        <h3>Total Revenue</h3>
+        <div class="card-value" id="totalRevenue">₹0</div>
+    </div>
+
+</div>
+
+<div class="dashboard-row">
+
+    <div class="panel">
+        <h2>Room Status Overview</h2>
+
+        <canvas id="roomChart"></canvas>
+    </div>
+
+    <div class="panel">
+
+        <h2>Recent Bookings</h2>
+
+        <table>
+
+            <tr>
+                <th>ID</th>
+                <th>Customer</th>
+                <th>Room</th>
+                <th>Status</th>
+            </tr>
+
+            <tr>
+                <td>BK101</td>
+                <td>Rahul</td>
+                <td>101</td>
+                <td>Confirmed</td>
+            </tr>
+
+            <tr>
+                <td>BK102</td>
+                <td>Priya</td>
+                <td>203</td>
+                <td>Pending</td>
+            </tr>
+
+            <tr>
+                <td>BK103</td>
+                <td>Kiran</td>
+                <td>305</td>
+                <td>Confirmed</td>
+            </tr>
+
+        </table>
+
+    </div>
+
+</div>
+
+<div class="bottom-grid">
+
+    <div class="small-card">
+        <h4>Today's Check-ins</h4>
+        <p>12</p>
+    </div>
+
+    <div class="small-card">
+        <h4>Today's Check-outs</h4>
+        <p>8</p>
+    </div>
+
+    <div class="small-card">
+        <h4>Pending Bookings</h4>
+        <p>6</p>
+    </div>
+
+    <div class="small-card">
+        <h4>Cancelled Bookings</h4>
+        <p>3</p>
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+new Chart(
+document.getElementById('roomChart'),
+{
+type:'doughnut',
+data:{
+labels:['Available','Booked','Maintenance'],
+datasets:[{
+data:[25,15,5]
+}]
+}
+});
+</script>
+<script src="{{ url_for('static', path='js/dashboard.js') }}"></script>
+<script src="{{ url_for('static', path='js/dashboard.js') }}"></script>
+
+{% endblock %}

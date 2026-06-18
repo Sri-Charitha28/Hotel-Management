@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Room</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', path='css/booking_form.css') }}">
+</head>
+<body>
+
+<div class="booking-container">
+
+    <div class="booking-card">
+
+        <h1>Room Booking</h1>
+
+        <div class="booking-summary">
+
+            <h3>Booking Summary</h3>
+
+            <p>
+                <strong>Room ID:</strong>
+                <span id="roomIdDisplay"></span>
+            </p>
+
+            <p>
+                <strong>Total Nights:</strong>
+                <span id="totalNights">0</span>
+            </p>
+
+        </div>
+
+        <form id="bookingForm">
+
+            <label>Check-In Date</label>
+            <input type="date" id="checkIn" required>
+
+            <label>Check-Out Date</label>
+            <input type="date" id="checkOut" required>
+
+            <label>Guests</label>
+            <select id="guests">
+                <option>1 Guest</option>
+                <option>2 Guests</option>
+                <option>3 Guests</option>
+                <option>4 Guests</option>
+            </select>
+
+            <button type="submit">
+                Confirm Booking
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+<script src="{{ url_for('static', path='js/booking_form.js') }}"></script>
+
+</body>
+</html>

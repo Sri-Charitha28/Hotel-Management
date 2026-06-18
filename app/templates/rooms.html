@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="page-header">
+    <h1>Manage Rooms</h1>
+
+    <button class="add-room-btn">
+        + Add Room
+    </button>
+    <div id="addRoomModal" class="modal">
+
+    <div class="modal-content">
+
+        <h2>Add New Room</h2>
+
+        <form id="roomForm">
+<input
+    type="hidden"
+    id="roomId"
+>
+            <input
+                type="text"
+                id="roomNumber"
+                placeholder="Room Number"
+                required
+            >
+
+            <input
+                type="text"
+                id="roomType"
+                placeholder="Room Type"
+                required
+            >
+
+            <input
+                type="number"
+                id="roomPrice"
+                placeholder="Price"
+                required
+            >
+
+            <select id="roomStatus">
+                <option value="available">Available</option>
+                <option value="occupied">Occupied</option>
+            </select>
+
+            <div class="modal-buttons">
+                <button type="submit">
+                    Save Room
+                </button>
+
+                <button
+                    type="button"
+                    id="closeModal"
+                >
+                    Cancel
+                </button>
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+</div>
+
+<div class="table-controls">
+
+    <input
+        type="text"
+        placeholder="Search rooms..."
+    >
+
+    <select>
+        <option>All Status</option>
+        <option>Available</option>
+        <option>Occupied</option>
+        <option>Maintenance</option>
+    </select>
+
+</div>
+
+<div class="panel">
+
+    <table id="roomsTable">
+
+        <thead>
+            <tr>
+                <th>Room No.</th>
+                <th>Room Type</th>
+                <th>Price (₹)</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+        </tbody>
+
+    </table>
+
+</div>
+
+<script src="{{ url_for('static', path='js/rooms.js') }}"></script>
+<script src="{{ url_for('static', path='js/dashboard.js') }}"></script>
+
+
+{% endblock %}

@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel Royal</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', path='css/home.css') }}">
+              <link rel="stylesheet"
+          href="{{ url_for('static', path='css/navbar.css') }}">
+</head>
+<body>
+
+{% include "navbar.html" %}
+<!-- Hero Section -->
+
+<section
+    class="hero"
+    id="home"
+>
+
+    <div class="overlay">
+
+        <div class="hero-content">
+
+            <h4>
+                Welcome to Hotel Royal
+            </h4>
+
+            <h1>
+                Experience Luxury
+                Like Never Before
+            </h1>
+
+            <p>
+                Comfortable rooms,
+                premium services
+                and unforgettable memories.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- Search Section -->
+<!-- Search Section -->
+
+<section class="search-box">
+
+    <div class="search-card">
+
+        <div class="field">
+
+            <label>
+                Check In
+            </label>
+
+            <input
+                type="date"
+                id="checkIn"
+            >
+
+        </div>
+
+        <div class="field">
+
+            <label>
+                Check Out
+            </label>
+
+            <input
+                type="date"
+                id="checkOut"
+            >
+
+        </div>
+
+        <div class="field">
+
+            <label>
+                Guests
+            </label>
+
+            <select id="guests">
+
+                <option>
+                    1 Guest
+                </option>
+
+                <option>
+                    2 Guests
+                </option>
+
+                <option>
+                    3 Guests
+                </option>
+
+                <option>
+                    4 Guests
+                </option>
+
+            </select>
+
+        </div>
+
+        <button
+            class="search-btn"
+            id="searchRoomsBtn"
+            onclick="searchRooms()"
+        >
+            Search Rooms
+        </button>
+
+    </div>
+
+</section>
+
+<!-- Featured Rooms -->
+
+<!-- Featured Rooms -->
+
+<section class="featured-rooms">
+
+    <h2>
+        Featured Rooms
+    </h2>
+
+    <div class="room-cards">
+
+        <!-- Single Room -->
+
+        <div class="room-card">
+
+            <img
+                src="/static/images/rooms/single.jpg"
+                alt="Single Room"
+            >
+
+            <h3>
+                Single Room
+            </h3>
+
+            <p>
+                Comfortable room for solo travellers.
+            </p>
+
+        </div>
+
+        <!-- Deluxe Room -->
+
+        <div class="room-card">
+
+            <img
+                src="/static/images/rooms/deluxe.jpg"
+                alt="Deluxe Room"
+            >
+
+            <h3>
+                Deluxe Room
+            </h3>
+
+            <p>
+                Elegant room with modern facilities.
+            </p>
+
+        </div>
+
+        <!-- Premium Room -->
+
+        <div class="room-card">
+
+            <img
+                src="/static/images/rooms/premium.jpg"
+                alt="Premium Room"
+            >
+
+            <h3>
+                Premium Room
+            </h3>
+
+            <p>
+                Premium comfort for business and family stays.
+            </p>
+
+        </div>
+
+        <!-- Suite Room -->
+
+        <div class="room-card">
+
+            <img
+                src="/static/images/rooms/suite.jpg"
+                alt="Suite Room"
+            >
+
+            <h3>
+                Suite Room
+            </h3>
+
+            <p>
+                Luxury experience with premium facilities.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+<!-- About Us -->
+
+<section
+    id="about"
+    class="about-section"
+>
+
+    <div class="about-container">
+
+        <div class="about-image">
+
+            <img
+                src="/static/images/rooms/banner.jpg"
+                alt="Hotel Royal"
+            >
+
+        </div>
+
+        <div class="about-content">
+
+            <h2>
+                About Hotel Royal
+            </h2>
+
+            <p>
+                Hotel Royal offers luxury accommodation,
+                premium facilities and exceptional hospitality.
+                Our mission is to provide every guest with
+                a comfortable and memorable experience.
+            </p>
+
+            <p>
+                Whether you are travelling for business
+                or leisure, our elegant rooms, modern
+                amenities and professional service ensure
+                a pleasant stay.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- Services -->
+
+<!-- Services -->
+
+<section
+    id="services"
+    class="services-section"
+>
+
+    <h2>
+        Our Services
+    </h2>
+
+    <div class="services-grid">
+
+        <div class="service-card">
+
+            <div class="service-icon">
+                📶
+            </div>
+
+            <h3>
+                Free WiFi
+            </h3>
+
+            <p>
+                High-speed internet access throughout the hotel.
+            </p>
+
+        </div>
+
+        <div class="service-card">
+
+            <div class="service-icon">
+                🏊
+            </div>
+
+            <h3>
+                Swimming Pool
+            </h3>
+
+            <p>
+                Relax and refresh in our luxury swimming pool.
+            </p>
+
+        </div>
+
+        <div class="service-card">
+
+            <div class="service-icon">
+                🍽️
+            </div>
+
+            <h3>
+                Restaurant
+            </h3>
+
+            <p>
+                Enjoy delicious food prepared by expert chefs.
+            </p>
+
+        </div>
+
+        <div class="service-card">
+
+            <div class="service-icon">
+                🛎️
+            </div>
+
+            <h3>
+                Room Service
+            </h3>
+
+            <p>
+                24/7 room service for your convenience.
+            </p>
+
+        </div>
+
+        <div class="service-card">
+
+            <div class="service-icon">
+                🚗
+            </div>
+
+            <h3>
+                Parking Facility
+            </h3>
+
+            <p>
+                Secure parking space available for guests.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- Contact -->
+
+<!-- Contact -->
+
+<section
+    id="contact"
+    class="contact-section"
+>
+
+    <h2>
+        Contact Us
+    </h2>
+
+    <div class="contact-container">
+
+        <div class="contact-card">
+
+            <div class="contact-icon">
+                📧
+            </div>
+
+            <h3>Email</h3>
+
+            <p>
+                hotelroyal@gmail.com
+            </p>
+
+        </div>
+
+        <div class="contact-card">
+
+            <div class="contact-icon">
+                📞
+            </div>
+
+            <h3>Phone</h3>
+
+            <p>
+                +91 9876543210
+            </p>
+
+        </div>
+
+        <div class="contact-card">
+
+            <div class="contact-icon">
+                📍
+            </div>
+
+            <h3>Location</h3>
+
+            <p>
+                Hyderabad, India
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- Footer -->
+
+<footer class="footer">
+
+    <p>
+        © 2026 Hotel Royal.
+        All Rights Reserved.
+    </p>
+
+</footer>
+
+
+<script>
+
+if (
+    !localStorage.getItem(
+        "token"
+    )
+) {
+    window.location.replace(
+        "/login"
+    );
+}
+
+</script>
+
+<script src="{{ url_for('static', path='js/home.js') }}"></script>
+
+</body>
+</html>

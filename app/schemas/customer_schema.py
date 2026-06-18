@@ -8,7 +8,7 @@ class CustomerBase(BaseModel):
 
 
 class CustomerCreate(CustomerBase):
-    pass
+    password: str
 
 
 class CustomerResponse(CustomerBase):

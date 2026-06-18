@@ -1,0 +1,221 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+
+    background:
+        linear-gradient(
+            rgba(0,0,0,0.45),
+            rgba(0,0,0,0.45)
+        ),
+        url("/static/images/hotel-lobby.jpg");
+
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    min-height:100vh;
+}
+
+.booking-container{
+
+    width:100%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+}
+
+.booking-card{
+
+    width:500px;
+
+    background:rgba(
+        255,
+        255,
+        255,
+        0.95
+    );
+
+    backdrop-filter:blur(12px);
+
+    padding:35px;
+
+    border-radius:20px;
+
+    box-shadow:
+        0 15px 40px
+        rgba(0,0,0,0.25);
+
+    border:
+        1px solid
+        rgba(
+            255,
+            255,
+            255,
+            0.3
+        );
+}
+
+.booking-card h1{
+
+    text-align:center;
+
+    margin-bottom:25px;
+
+    color:#1f3c88;
+
+    font-size:32px;
+
+    letter-spacing:1px;
+}
+
+.booking-summary{
+
+    background:#eef4ff;
+
+    padding:18px;
+
+    border-radius:12px;
+
+    margin-bottom:25px;
+
+    border-left:
+        5px solid #1f3c88;
+}
+
+.booking-summary h3{
+
+    margin-bottom:12px;
+
+    color:#1f3c88;
+
+    font-size:20px;
+}
+
+.booking-summary p{
+
+    margin:10px 0;
+
+    font-size:15px;
+}
+
+form{
+
+    display:flex;
+    flex-direction:column;
+}
+
+label{
+
+    margin-top:12px;
+
+    margin-bottom:6px;
+
+    font-weight:bold;
+
+    color:#333;
+}
+
+input,
+select{
+
+    padding:12px;
+
+    border:1px solid #ccc;
+
+    border-radius:10px;
+
+    font-size:15px;
+
+    transition:0.3s;
+}
+
+input:focus,
+select:focus{
+
+    outline:none;
+
+    border-color:#1f3c88;
+
+    box-shadow:
+        0 0 10px
+        rgba(
+            31,
+            60,
+            136,
+            0.25
+        );
+}
+
+button{
+
+    margin-top:25px;
+
+    padding:15px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #1f3c88,
+            #3566d6
+        );
+
+    color:white;
+
+    font-size:16px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    transition:0.3s ease;
+}
+
+button:hover{
+
+    transform:
+        translateY(-3px);
+
+    box-shadow:
+        0 8px 20px
+        rgba(
+            31,
+            60,
+            136,
+            0.35
+        );
+}
+
+button:active{
+
+    transform:
+        translateY(0);
+}
+
+@media(max-width:600px){
+
+    .booking-card{
+
+        width:95%;
+
+        padding:25px;
+    }
+
+    .booking-card h1{
+
+        font-size:26px;
+    }
+}

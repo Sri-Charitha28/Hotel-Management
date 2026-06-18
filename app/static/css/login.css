@@ -1,0 +1,165 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body{
+    background: #f4f6f9;
+}
+
+.login-container{
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 30px;
+}
+
+.left-panel{
+    width: 520px;
+    height: 760px;
+    background: #0d2f6f;
+    color: white;
+    border-radius: 20px 0 0 20px;
+    overflow: hidden;
+}
+
+.brand{
+    padding: 40px;
+}
+
+.brand h1{
+    font-size: 60px;
+    color: #ffd54f;
+    margin-bottom: 20px;
+}
+
+.brand p{
+    font-size: 18px;
+    line-height: 1.8;
+}
+
+.image-section img{
+    width: 100%;
+    height: 520px;
+    object-fit: cover;
+}
+
+.right-panel{
+    width: 700px;
+    height: 760px;
+    background: white;
+    border-radius: 0 20px 20px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-card{
+    width: 75%;
+}
+
+.form-card h2{
+    font-size: 55px;
+    margin-bottom: 15px;
+    color: #1b2b4b;
+}
+
+.form-card p{
+    color: gray;
+    margin-bottom: 35px;
+    font-size: 18px;
+}
+
+.form-card label{
+    display: block;
+    margin-top: 20px;
+    margin-bottom: 8px;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.form-card input[type="email"],
+.form-card input[type="password"]{
+    width: 100%;
+    padding: 18px;
+    border: 1px solid #d6d6d6;
+    border-radius: 10px;
+    font-size: 16px;
+}
+
+.form-card button{
+    width: 100%;
+    margin-top: 25px;
+    padding: 18px;
+    border: none;
+    background: #163b7d;
+    color: white;
+    border-radius: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.form-card button:hover{
+    background: #0f2c5c;
+}
+
+.register-link{
+    text-align: center;
+    margin-top: 25px;
+    font-size: 17px;
+}
+
+.register-link a{
+    text-decoration: none;
+    color: #163b7d;
+    font-weight: bold;
+}
+
+.register-link a:hover{
+    text-decoration: underline;
+}
+
+/* Remember Me + Forgot Password */
+
+.options{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.options label{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    font-size: 15px;
+    font-weight: 500;
+    color: #555;
+    cursor: pointer;
+}
+
+.options input[type="checkbox"]{
+    width: 18px;
+    height: 18px;
+    margin: 0;
+    cursor: pointer;
+}
+
+.options a{
+    text-decoration: none;
+    color: #163b7d;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.options a:hover{
+    text-decoration: underline;
+}
