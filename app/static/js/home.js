@@ -22,78 +22,6 @@ window.onpopstate = function () {
 
 };
 
-
-// Search Rooms Button
-
-const searchBtn =
-    document.querySelector(
-        ".search-btn"
-    );
-
-if (searchBtn) {
-
-    searchBtn.addEventListener(
-        "click",
-        function () {
-
-            const checkIn =
-                document.querySelectorAll(
-                    'input[type="date"]'
-                )[0].value;
-
-            const checkOut =
-                document.querySelectorAll(
-                    'input[type="date"]'
-                )[1].value;
-
-            if (
-                !checkIn ||
-                !checkOut
-            ) {
-
-                alert(
-                    "Please select Check-In and Check-Out dates"
-                );
-
-                return;
-
-            }
-
-            localStorage.setItem(
-                "searchCheckIn",
-                checkIn
-            );
-
-            localStorage.setItem(
-                "searchCheckOut",
-                checkOut
-            );
-
-            window.location.href =
-                "/customer-rooms";
-
-        }
-    );
-
-}
-
-// Open All Rooms
-
-function openAllRooms() {
-
-    localStorage.removeItem(
-        "searchCheckIn"
-    );
-
-    localStorage.removeItem(
-        "searchCheckOut"
-    );
-
-    window.location.href =
-        "/customer-rooms";
-
-}
-
 // Search Rooms
 
 async function searchRooms() {
@@ -121,6 +49,41 @@ async function searchRooms() {
 
     }
 
+    const today =
+        new Date();
+
+    today.setHours(
+        0, 0, 0, 0
+    );
+
+    const checkInDate =
+        new Date(checkIn);
+
+    if (
+        checkInDate < today
+    ) {
+
+        alert(
+            "Check-In date cannot be in the past"
+        );
+
+        return;
+
+    }
+
+    if (
+        new Date(checkOut) <=
+        new Date(checkIn)
+    ) {
+
+        alert(
+            "Check-Out date must be after Check-In date"
+        );
+
+        return;
+
+    }
+
     localStorage.setItem(
         "searchCheckIn",
         checkIn
@@ -129,6 +92,23 @@ async function searchRooms() {
     localStorage.setItem(
         "searchCheckOut",
         checkOut
+    );
+
+    window.location.href =
+        "/customer-rooms";
+
+}
+
+// Open All Rooms
+
+function openAllRooms() {
+
+    localStorage.removeItem(
+        "searchCheckIn"
+    );
+
+    localStorage.removeItem(
+        "searchCheckOut"
     );
 
     window.location.href =

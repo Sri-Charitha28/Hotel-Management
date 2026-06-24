@@ -1,128 +1,419 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Profile</title>
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+   
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', path='css/navbar.css') }}">
 
     <link rel="stylesheet"
           href="{{ url_for('static', path='css/profile.css') }}">
+          <link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
 </head>
+
 <body>
 
-    <!-- Navbar -->
+    {% include "navbar.html" %}
 
-    <nav class="navbar">
+    <!-- Profile Banner -->
 
-        <div class="logo">
-            Hotel Royal
+    <section class="profile-banner">
+
+        <div class="banner-overlay">
+
+            
+
         </div>
 
-        <ul class="nav-links">
-            <li><a href="/home">Home</a></li>
-            <li><a href="#" onclick="openAllRooms()">Rooms</a></li>
-            <li><a href="/my-bookings">My Bookings</a></li>
-        </ul>
+    </section>
+
+    <!-- Main Profile Section -->
+
+    <section class="profile-section">
+
+        <!-- Left Sidebar -->
+
+        <div class="profile-sidebar">
+
+            <ul class="sidebar-menu">
+
+                <li class="active-menu">
+                    <i class="fas fa-user"></i>
+                    Profile Information
+                </li>
+
+                <li onclick="openPasswordModal()">
+    <i class="fa-solid fa-lock"></i>
+    Change Password
+</li>
+
+                <li onclick="goToMyBookings()">
+    <i class="fa-solid fa-calendar-check"></i>
+    My Bookings
+</li>
+
+                <li>
+                    <i class="fas fa-bell"></i>
+                    Notification Settings
+                </li>
+
+            </ul>
+
+
+        </div>
+
+        <!-- Right Content -->
+
+        <div class="profile-content">
+
+            <!-- Personal Information Card -->
+
+            <div class="info-card">
+
+                <div class="info-header">
+
+                    <h2>
+                        Personal Information
+                    </h2>
+
+                    <button
+                        class="edit-btn"
+                        onclick="openModal()"
+                    >
+                        Edit Profile
+                    </button>
+
+                </div>
+
+                <div class="info-body">
+
+                    <div class="profile-avatar">
+
+                        <img
+                            src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+                            alt="Profile"
+                        >
+
+                    </div>
+
+                    <div class="user-details">
+
+                        <div class="detail-item">
+
+                            <span>
+                                Full Name
+                            </span>
+
+                            <h4 id="customerName">
+                                Loading...
+                            </h4>
+
+                        </div>
+
+                        <div class="detail-item">
+
+                            <span>
+                                Email Address
+                            </span>
+
+                            <h4 id="customerEmail">
+                                Loading...
+                            </h4>
+
+                        </div>
+
+                        <div class="detail-item">
+
+                            <span>
+                                Phone Number
+                            </span>
+
+                            <h4 id="customerPhone">
+                                Loading...
+                            </h4>
+
+                        </div>
+
+                        <div class="detail-item">
+
+                            <span>
+                                Member Since
+                            </span>
+
+                            <h4>
+                                June 2026
+                            </h4>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Statistics Section -->
+
+            <div class="stats-grid">
+
+                <div class="stat-box">
+                    <div class="stat-top">
+                     <div class="stat-icon booking-icon">
+                     <i class="fas fa-calendar-check"></i>
+                     </div>
+                      <div class="stat-content">
+                     <p>
+                        Total Bookings
+                    </p>
+
+                    <h3 id="totalBookings">
+                        0
+                    </h3>
+</div>
+</div>
+                    
+                     
+
+                </div>
+
+                <div class="stat-box">
+                    <div class="stat-top">
+                     <div class="stat-icon completed-icon">
+        <i class="fas fa-check-circle"></i>
+    </div>
+    <div class="stat-content">
+
+ <p>
+                        Completed Stays
+                    </p>
+                    
+                    <h3 id="completedBookings">
+                        0
+                    </h3>
+                    </div>
+                    </div>
+
+                   
+                     
+
+                </div>
+
+                <div class="stat-box">
+                    <div class="stat-top">
+                    <div class="stat-icon upcoming-icon">
+        <i class="fas fa-clock"></i>
+    </div>
+    <div class="stat-content">
+  <p>
+                        Upcoming Stays
+                    </p>
+                    
+                    <h3 id="upcomingBookings">
+                        0
+                    </h3>
+                    </div>
+                    </div>
+
+                  
+                    
+
+                </div>
+
+                <div class="stat-box">
+                    <div class="stat-top">
+                    <div class="stat-icon spent-icon">
+        <i class="fas fa-star"></i>
+    </div>
+    <div class="stat-content">
+    <p>
+                        Total Spent
+                    </p>
+
+                    <h3 id="totalSpent">
+                        ₹0
+                    </h3>
+                    </div>
+                    </div>
+
+                    
+                    
+
+                </div>
+
+            </div>
+
+            <!-- Security Card -->
+
+            <div class="security-card">
+
+    <div class="security-left">
+
+        <h3>
+            <i class="fas fa-shield-alt"></i>
+            Your Account is Secure
+        </h3>
+
+        <p>
+            Your account is protected with secure authentication.
+        </p>
+
+    </div>
+
+    <button class="security-btn">
+        Security Settings
+    </button>
+
+</div>
+            
+
+        </div>
+
+        <!-- Edit Profile Modal -->
+
+        <div
+            id="editProfileModal"
+            class="modal"
+        >
+
+            <div class="modal-content">
+
+                <span
+                    class="close-btn"
+                    onclick="closeModal()"
+                >
+                    &times;
+                </span>
+
+                <h2>
+                    Edit Profile
+                </h2>
+
+                <div class="form-group">
+
+                    <label>
+                        Full Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="editName"
+                    >
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>
+                        Phone Number
+                    </label>
+
+                    <input
+                        type="text"
+                        id="editPhone"
+                    >
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>
+                        Email Address
+                    </label>
+
+                    <input
+                        type="email"
+                        id="editEmail"
+                    >
+
+                </div>
+
+                <button
+                    class="save-btn"
+                    onclick="updateProfile()"
+                >
+                    Save Changes
+                </button>
+
+            </div>
+
+        </div>
+        <div id="passwordModal" class="modal">
+
+    <div class="modal-content">
+
+        <span
+            class="close-btn"
+            onclick="closePasswordModal()"
+        >
+            &times;
+        </span>
+
+        <h2>
+            Change Password
+        </h2>
+
+        <div class="form-group">
+
+            <label>
+                Current Password
+            </label>
+
+            <input
+                type="password"
+                id="currentPassword"
+            >
+
+        </div>
+
+        <div class="form-group">
+
+            <label>
+                New Password
+            </label>
+
+            <input
+                type="password"
+                id="newPassword"
+            >
+
+        </div>
+
+        <div class="form-group">
+
+            <label>
+                Confirm Password
+            </label>
+
+            <input
+                type="password"
+                id="confirmPassword"
+            >
+
+        </div>
 
         <button
-            class="logout-btn"
-            onclick="logout()"
+            class="save-btn"
+            onclick="changePassword()"
         >
-            Logout
+            Update Password
         </button>
 
-    </nav>
-
-    <!-- Profile Container -->
-
-    <div class="profile-container">
-
-        <!-- Left Card -->
-
-        <div class="profile-card">
-
-            <img
-                src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
-                alt="Profile"
-                class="profile-image"
-            >
-
-            <h2 id="customerName">
-                Customer Name
-            </h2>
-
-            <p id="customerEmail">
-                customer@email.com
-            </p>
-
-            <p id="customerPhone">
-                +91 9876543210
-            </p>
-
-        </div>
-
-        <!-- Right Card -->
-
-        <div class="details-card">
-
-            <h2>
-                Profile Information
-            </h2>
-
-            <div class="form-group">
-                <label>Full Name</label>
-                <input
-                    type="text"
-                    id="fullName"
-                >
-            </div>
-
-            <div class="form-group">
-                <label>Email</label>
-                <input
-                    type="email"
-                    id="email"
-                >
-            </div>
-
-            <div class="form-group">
-                <label>Phone Number</label>
-                <input
-                    type="text"
-                    id="phone"
-                >
-            </div>
-
-            <button
-                class="update-btn"
-            >
-                Update Profile
-            </button>
-
-        </div>
-
     </div>
 
-    <!-- Stats -->
+</div>
 
-    <div class="stats-container">
-
-        <div class="stat-card">
-            <h3 id="totalBookings">0</h3>
-            <p>Total Bookings</p>
-        </div>
-
-        <div class="stat-card">
-            <h3 id="activeBookings">0</h3>
-            <p>Active Bookings</p>
-        </div>
-
-        <div class="stat-card">
-            <h3>2026</h3>
-            <p>Member Since</p>
-        </div>
-
-    </div>
+    </section>
 
     <script src="{{ url_for('static', path='js/profile.js') }}"></script>
 

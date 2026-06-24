@@ -43,7 +43,7 @@
             </li>
 
             <li>
-                <a href="/bookings-page"
+                <a href="/admin-bookings"
                    class="{% if active_page == 'bookings' %}active{% endif %}">
                     <i class="fa-solid fa-calendar-check"></i>
                     Bookings
@@ -51,7 +51,7 @@
             </li>
 
             <li>
-                <a href="/customers-page"
+                <a href="/admin-customers"
                    class="{% if active_page == 'customers' %}active{% endif %}">
                     <i class="fa-solid fa-users"></i>
                     Customers
@@ -59,14 +59,15 @@
             </li>
 
             <li>
-                <a href="#">
+                <a href="/admin-reports"
+   class="{% if active_page == 'reports' %}active{% endif %}">
                     <i class="fa-solid fa-chart-line"></i>
                     Reports
                 </a>
             </li>
 
             <li>
-                <a href="#">
+                <a href="admin-settings">
                     <i class="fa-solid fa-gear"></i>
                     Settings
                 </a>

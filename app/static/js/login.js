@@ -99,9 +99,22 @@ document
 
                 alert("Login Successful");
 
-                window.location.replace(
-                    "/home"
-                );
+if (
+    data.role === "admin"
+) {
+
+    window.location.replace(
+        "/dashboard"
+    );
+
+}
+else {
+
+    window.location.replace(
+        "/home"
+    );
+
+}
 
             } else {
 

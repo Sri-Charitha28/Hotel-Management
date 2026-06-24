@@ -194,3 +194,44 @@ def profile_page(request: Request):
         request=request,
         name="profile.html"
     )
+@router.get("/admin-bookings")
+def admin_bookings_page(request: Request):
+
+    return templates.TemplateResponse(
+    request=request,
+    name="admin_bookings.html",
+    context={
+        "active_page": "bookings"
+    }
+)
+
+@router.get("/admin-customers")
+def customers_page(request: Request):
+
+    return templates.TemplateResponse(
+        request=request,
+        name="admin_customers.html",
+        context={
+            "active_page": "customers"
+        }
+    )
+@router.get("/admin-reports")
+def reports_page(request: Request):
+
+    return templates.TemplateResponse(
+        request=request,
+        name="admin_reports.html",
+        context={
+            "active_page": "reports"
+        }
+    )
+@router.get("/admin-settings")
+def admin_settings_page(request: Request):
+
+    return templates.TemplateResponse(
+        request=request,
+        name="admin_settings.html",
+        context={
+            "active_page": "settings"
+        }
+    )

@@ -1,53 +1,94 @@
-async function loadDashboard() {
+async function loadDashboardStats() {
 
     try {
 
-        const roomsResponse =
+        const response =
             await fetch(
-                "http://127.0.0.1:8000/rooms"
+                "http://127.0.0.1:8000/dashboard-stats"
             );
 
-        const rooms =
-            await roomsResponse.json();
+        const data =
+            await response.json();
+            console.log(data);
 
         document.getElementById(
             "totalRooms"
-        ).innerText = rooms.length;
-
-
-        const customersResponse =
-            await fetch(
-                "http://127.0.0.1:8000/customers"
-            );
-
-        const customers =
-            await customersResponse.json();
-
-        document.getElementById(
-            "totalCustomers"
-        ).innerText = customers.length;
-
-
-        const bookingsResponse =
-            await fetch(
-                "http://127.0.0.1:8000/bookings"
-            );
-
-        const bookings =
-            await bookingsResponse.json();
+        ).innerText =
+            data.total_rooms;
 
         document.getElementById(
             "totalBookings"
-        ).innerText = bookings.length;
+        ).innerText =
+            data.total_bookings;
 
+        document.getElementById(
+            "totalCustomers"
+        ).innerText =
+            data.total_customers;
 
         document.getElementById(
             "totalRevenue"
-        ).innerText = "₹0";
+        ).innerText =
+            "₹" + data.total_revenue;
+
+        document.getElementById(
+            "availableRooms"
+        ).innerText =
+            data.available_rooms;
+
+        document.getElementById(
+            "occupiedRooms"
+        ).innerText =
+            data.occupied_rooms;
+
+        document.getElementById(
+            "pendingBookings"
+        ).innerText =
+            data.pending_bookings;
+
+        document.getElementById(
+            "cancelledBookings"
+        ).innerText =
+            data.cancelled_bookings;
+
+        const chartCanvas =
+    document.getElementById(
+        "roomChart"
+    );
+
+Chart.getChart(
+    chartCanvas
+)?.destroy();
+
+new Chart(
+    chartCanvas,
+    {
+        type: "doughnut",
+
+        data: {
+
+            labels: [
+                "Available",
+                "Occupied"
+            ],
+
+            datasets: [
+                {
+                    data: [
+                        data.available_rooms,
+                        data.occupied_rooms
+                    ]
+                }
+            ]
+
+        }
+
+    }
+);
 
     }
 
-    catch(error) {
+    catch(error){
 
         console.log(error);
 
@@ -55,4 +96,41 @@ async function loadDashboard() {
 
 }
 
-loadDashboard();
+loadDashboardStats();
+async function loadRecentBookings() {
+
+    console.log(
+        "Recent Bookings Loading..."
+    );
+
+    const response =
+        await fetch(
+            "http://127.0.0.1:8000/recent-bookings"
+        );
+
+    const data =
+        await response.json();
+
+    console.log(data);
+
+    let rows = "";
+
+    data.forEach(booking => {
+
+        rows += `
+        <tr>
+            <td>${booking.booking_id}</td>
+            <td>${booking.customer_name}</td>
+            <td>${booking.room_number}</td>
+            <td>${booking.status}</td>
+        </tr>
+        `;
+
+    });
+
+    document.getElementById(
+        "recentBookingsBody"
+    ).innerHTML = rows;
+}
+loadDashboardStats();
+loadRecentBookings();

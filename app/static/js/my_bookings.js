@@ -51,7 +51,40 @@ async function loadBookings() {
                     booking.booking_status === "cancelled"
             ).length;
 
-        renderBookings(allBookings);
+        const savedFilter =
+    localStorage.getItem(
+        "bookingFilter"
+    );
+
+if (savedFilter) {
+
+    currentFilter =
+        savedFilter;
+
+    const filtered =
+        allBookings.filter(
+            booking =>
+                savedFilter === "all"
+                ||
+                booking.booking_status === savedFilter
+        );
+
+    renderBookings(
+        filtered
+    );
+
+    localStorage.removeItem(
+        "bookingFilter"
+    );
+
+}
+else {
+
+    renderBookings(
+        allBookings
+    );
+
+}
 
     }
     catch (error) {

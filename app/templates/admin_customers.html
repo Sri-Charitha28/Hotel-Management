@@ -1,0 +1,147 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<link rel="stylesheet"
+href="{{ url_for('static', path='css/admin_customers.css') }}">
+
+<div class="customers-container">
+
+    <div class="page-header">
+        <h1>Manage Customers</h1>
+    </div>
+
+    <div class="toolbar">
+
+        <input
+            type="text"
+            id="searchCustomer"
+            placeholder="Search customers..."
+        >
+
+        <button
+            class="add-btn"
+            onclick="openAddModal()"
+        >
+            <i class="fa-solid fa-plus"></i>
+            Add Customer
+        </button>
+
+    </div>
+
+    <table>
+
+        <thead>
+
+            <tr>
+
+                <th>Customer ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Actions</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody id="customersTable">
+
+        </tbody>
+
+    </table>
+
+    <div id="pagination">
+
+    </div>
+
+</div>
+
+<!-- ADD CUSTOMER MODAL -->
+
+<div id="addModal" class="modal">
+
+    <div class="modal-content">
+
+        <span
+            class="close"
+            onclick="closeAddModal()"
+        >
+            &times;
+        </span>
+
+        <h2>Add Customer</h2>
+
+        <input
+            type="text"
+            id="addName"
+            placeholder="Customer Name"
+        >
+
+        <input
+            type="email"
+            id="addEmail"
+            placeholder="Email"
+        >
+
+        <input
+            type="text"
+            id="addPhone"
+            placeholder="Phone"
+        >
+
+        <input
+            type="password"
+            id="addPassword"
+            placeholder="Password"
+        >
+
+        <button onclick="addCustomer()">
+            Save Customer
+        </button>
+
+    </div>
+
+</div>
+
+<!-- EDIT CUSTOMER MODAL -->
+
+<div id="editModal" class="modal">
+
+    <div class="modal-content">
+
+        <span
+            class="close"
+            onclick="closeEditModal()"
+        >
+            &times;
+        </span>
+
+        <h2>Edit Customer</h2>
+
+        <input
+            type="text"
+            id="editName"
+        >
+
+        <input
+            type="email"
+            id="editEmail"
+        >
+
+        <input
+            type="text"
+            id="editPhone"
+        >
+
+        <button onclick="updateCustomer()">
+            Update Customer
+        </button>
+
+    </div>
+
+</div>
+
+<script src="{{ url_for('static', path='js/admin_customers.js') }}"></script>
+
+{% endblock %}

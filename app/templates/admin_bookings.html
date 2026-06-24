@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<link rel="stylesheet"
+href="{{ url_for('static', path='css/admin_bookings.css') }}">
+
+<div class="bookings-container">
+
+    <div class="page-header">
+
+        <h1>Manage Bookings</h1>
+
+    </div>
+
+    <div class="toolbar">
+
+        <input
+            type="text"
+            id="searchBooking"
+            placeholder="Search bookings..."
+        >
+
+        <select id="statusFilter">
+
+            <option value="all">
+                All Status
+            </option>
+
+            <option value="booked">
+                Booked
+            </option>
+
+            <option value="completed">
+                Completed
+            </option>
+
+            <option value="cancelled">
+                Cancelled
+            </option>
+
+        </select>
+
+    </div>
+
+    <table>
+
+        <thead>
+
+            <tr>
+
+                <th>Booking ID</th>
+                <th>Customer</th>
+                <th>Room</th>
+                <th>Check-in</th>
+                <th>Check-out</th>
+                <th>Status</th>
+                <th>Actions</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody id="bookingsTable">
+
+        </tbody>
+
+    </table>
+
+    <div id="pagination">
+
+    </div>
+
+</div>
+<!-- Edit Modal -->
+
+<div id="editModal" class="modal">
+
+    <div class="modal-content">
+
+        <span
+            class="close"
+            onclick="closeModal()"
+        >
+            &times;
+        </span>
+
+        <h2>Edit Booking</h2>
+
+        <input
+            type="number"
+            id="editRoomId"
+            placeholder="Room ID"
+        >
+
+        <input
+            type="date"
+            id="editCheckIn"
+        >
+
+        <input
+            type="date"
+            id="editCheckOut"
+        >
+
+        <select id="editStatus">
+
+            <option value="booked">
+                booked
+            </option>
+
+            <option value="checked-in">
+                checked-in
+            </option>
+
+            <option value="completed">
+                completed
+            </option>
+
+            <option value="cancelled">
+                cancelled
+            </option>
+
+        </select>
+
+        <button
+            onclick="updateBooking()"
+        >
+            Update Booking
+        </button>
+
+    </div>
+
+</div>
+
+<script src="{{ url_for('static', path='js/admin_bookings.js') }}"></script>
+
+{% endblock %}

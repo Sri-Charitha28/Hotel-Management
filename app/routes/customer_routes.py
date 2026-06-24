@@ -9,6 +9,7 @@ from app.auth.hashing import hash_password
 from app.auth.hashing import verify_password
 from app.auth.token import create_access_token
 from app.auth.oauth2 import verify_token
+from app.schemas.customer_schema import ChangePassword
 
 
 router = APIRouter()
@@ -17,9 +18,7 @@ router = APIRouter()
 # ---------------- GET ALL CUSTOMERS ----------------
 
 @router.get("/customers")
-def get_customers(
-    payload = Depends(verify_token)
-):
+def get_customers():
 
     db = SessionLocal()
 
@@ -38,6 +37,34 @@ def get_customers(
                 "email": customer.email
             }
         )
+
+    db.close()
+
+    return result
+@router.get("/customers/{customer_id}")
+def get_customer(customer_id: int):
+
+    db = SessionLocal()
+
+    customer = db.query(Customer).filter(
+        Customer.customer_id == customer_id
+    ).first()
+    
+
+    if not customer:
+
+        db.close()
+
+        return {
+            "message": "Customer Not Found"
+        }
+
+    result = {
+        "customer_id": customer.customer_id,
+        "name": customer.name,
+        "phone": customer.phone,
+        "email": customer.email
+    }
 
     db.close()
 
@@ -125,6 +152,7 @@ def login(
         return {
             "message": "Invalid Password"
         }
+    
 
     access_token = create_access_token(
         {
@@ -136,52 +164,54 @@ def login(
     db.close()
 
     return {
-        "access_token": access_token,
-        "token_type": "bearer",
-        "user_id": user.user_id,
-        "customer_id": customer.customer_id,
-        "name": user.name,
-        "role": user.role
-    }
-
+    "access_token": access_token,
+    "token_type": "bearer",
+    "user_id": user.user_id,
+    "customer_id": customer.customer_id if customer else None,
+    "name": user.name,
+    "role": user.role
+}
 
 # ---------------- UPDATE CUSTOMER ----------------
-
 @router.put("/customers/{customer_id}")
 def update_customer(customer_id: int, customer: CustomerCreate):
 
-    db = SessionLocal()
+    try:
 
-    existing_customer = db.query(Customer).filter(
-        Customer.customer_id == customer_id
-    ).first()
+        db = SessionLocal()
 
-    if not existing_customer:
+        existing_customer = db.query(Customer).filter(
+            Customer.customer_id == customer_id
+        ).first()
+
+        if not existing_customer:
+
+            db.close()
+
+            return {
+                "message": "Customer Not Found"
+            }
+
+        existing_customer.name = customer.name
+        existing_customer.phone = customer.phone
+        existing_customer.email = customer.email
+        
+
+        db.commit()
+
         db.close()
-        return {"message": "Customer Not Found"}
 
-    existing_customer.name = customer.name
-    existing_customer.phone = customer.phone
-    existing_customer.email = customer.email
-    existing_customer.password = hash_password(customer.password)
+        return {
+            "message": "Customer Updated Successfully"
+        }
 
-    db.commit()
+    except Exception as e:
 
-    result = {
-        "customer_id": existing_customer.customer_id,
-        "name": existing_customer.name,
-        "phone": existing_customer.phone,
-        "email": existing_customer.email
-    }
+        print("ERROR =", e)
 
-    db.close()
-
-    return {
-        "message": "Customer Updated Successfully",
-        "data": result
-    }
-
-
+        return {
+            "message": str(e)
+        }    
 # ---------------- DELETE CUSTOMER ----------------
 
 @router.delete("/customers/{customer_id}")
@@ -204,4 +234,53 @@ def delete_customer(customer_id: int):
 
     return {
         "message": "Customer Deleted Successfully"
+    }
+@router.put("/customers/change-password/{customer_id}")
+def change_password(
+    customer_id: int,
+    data: ChangePassword
+):
+
+    db = SessionLocal()
+
+    customer = db.query(Customer).filter(
+        Customer.customer_id == customer_id
+    ).first()
+
+    if not customer:
+
+        db.close()
+
+        return {
+            "message": "Customer Not Found"
+        }
+
+    user = db.query(User).filter(
+        User.email == customer.email
+    ).first()
+
+    if not verify_password(
+        data.current_password,
+        user.password
+    ):
+
+        db.close()
+
+        return {
+            "message": "Current Password Incorrect"
+        }
+
+    new_hash = hash_password(
+        data.new_password
+    )
+
+    customer.password = new_hash
+    user.password = new_hash
+
+    db.commit()
+
+    db.close()
+
+    return {
+        "message": "Password Updated Successfully"
     }

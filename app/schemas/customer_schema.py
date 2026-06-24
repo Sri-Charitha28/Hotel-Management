@@ -16,3 +16,6 @@ class CustomerResponse(CustomerBase):
 
     class Config:
         from_attributes = True
+class ChangePassword(BaseModel):
+    current_password: str
+    new_password: str
