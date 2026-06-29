@@ -7,7 +7,7 @@ href="{{ url_for('static', path='css/admin_reports.css') }}">
 
 <div class="reports-container">
 
-```
+
 <!-- HEADER -->
 
 <div class="reports-topbar">
@@ -30,13 +30,16 @@ href="{{ url_for('static', path='css/admin_reports.css') }}">
             id="reportDate"
         >
 
-        <button class="export-btn">
+        <button
+    class="export-btn"
+    onclick="openExportModal()"
+>
 
-            <i class="fa-solid fa-download"></i>
+    <i class="fa-solid fa-download"></i>
 
-            Export Report
+    Export Report
 
-        </button>
+</button>
 
     </div>
 
@@ -208,7 +211,67 @@ href="{{ url_for('static', path='css/admin_reports.css') }}">
     </table>
 
 </div>
-```
+<!-- EXPORT REPORT MODAL -->
+
+<div id="exportModal" class="modal">
+
+    <div class="modal-content">
+
+        <span
+            class="close"
+            onclick="closeExportModal()"
+        >
+            &times;
+        </span>
+
+        <h2>Export Report</h2>
+
+        <label>Start Date</label>
+
+        <input
+            type="date"
+            id="startDate"
+        >
+
+        <label>End Date</label>
+
+        <input
+            type="date"
+            id="endDate"
+        >
+
+        <div class="modal-buttons">
+
+    <button
+        type="button"
+        onclick="closeExportModal()"
+    >
+        Cancel
+    </button>
+
+    <button
+        type="button"
+        onclick="exportPDF()"
+        class="pdf-btn"
+    >
+        <i class="fa-solid fa-file-pdf"></i>
+        PDF
+    </button>
+
+    <button
+        type="button"
+        onclick="exportExcel()"
+        class="excel-btn"
+    >
+        <i class="fa-solid fa-file-excel"></i>
+        Excel
+    </button>
+
+</div>
+
+    </div>
+
+</div>
 
 </div>
 

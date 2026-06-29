@@ -7,6 +7,9 @@ const customerEmail =
 const customerPhone =
     localStorage.getItem("customerPhone");
 
+const token =
+    localStorage.getItem("token");
+
 document.getElementById(
     "customerName"
 ).innerText =
@@ -45,10 +48,16 @@ async function loadProfileStats() {
                 "customerId"
             );
 
-        const response =
-            await fetch(
-                `http://127.0.0.1:8000/my-bookings/${customerId}`
-            );
+        
+
+const response = await fetch(
+    `http://127.0.0.1:8000/my-bookings/${customerId}`,
+    {
+        headers: {
+            "Authorization": `Bearer ${token}`
+        }
+    }
+);
 
         const bookings =
             await response.json();
@@ -126,11 +135,16 @@ async function loadCustomerDetails() {
                 "customerId"
             );
 
-        const response =
-            await fetch(
-                `http://127.0.0.1:8000/customers/${customerId}`
-            );
+       
 
+const response = await fetch(
+    `http://127.0.0.1:8000/customers/${customerId}`,
+    {
+        headers: {
+            "Authorization": `Bearer ${token}`
+        }
+    }
+);
         const customer =
             await response.json();
 
@@ -164,8 +178,30 @@ loadProfileStats();
 function openModal() {
 
     document.getElementById(
+        "editName"
+    ).value =
+        document.getElementById(
+            "customerName"
+        ).innerText;
+
+    document.getElementById(
+        "editEmail"
+    ).value =
+        document.getElementById(
+            "customerEmail"
+        ).innerText;
+
+    document.getElementById(
+        "editPhone"
+    ).value =
+        document.getElementById(
+            "customerPhone"
+        ).innerText;
+
+    document.getElementById(
         "editProfileModal"
-    ).style.display = "block";
+    ).style.display =
+        "block";
 
 }
 
@@ -202,14 +238,14 @@ async function updateProfile() {
 
         const response =
             await fetch(
-                `http://127.0.0.1:8000/customers/${customerId}`,
+                `http://127.0.0.1:8000/profile/${customerId}`,
                 {
                     method: "PUT",
 
-                    headers: {
-                        "Content-Type":
-                            "application/json"
-                    },
+                    headers:{
+    "Content-Type":"application/json",
+    "Authorization": `Bearer ${token}`
+},
 
                     body: JSON.stringify({
 
@@ -308,11 +344,10 @@ async function changePassword() {
                 `http://127.0.0.1:8000/customers/change-password/${customerId}`,
                 {
                     method: "PUT",
-
-                    headers: {
-                        "Content-Type":
-                            "application/json"
-                    },
+headers:{
+    "Content-Type":"application/json",
+    "Authorization": `Bearer ${token}`
+},
 
                     body: JSON.stringify({
                         current_password:
@@ -344,13 +379,17 @@ async function changePassword() {
     }
 
 }
+function goToMyBookings() {
+
+    window.location.href = "/my-bookings";
+
+}
 function logout() {
 
     localStorage.clear();
 
     sessionStorage.clear();
 
-    window.location.href =
-        "/login";
+    window.location.replace("/login");
 
 }

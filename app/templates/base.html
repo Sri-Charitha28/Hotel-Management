@@ -67,18 +67,15 @@
             </li>
 
             <li>
-                <a href="admin-settings">
-                    <i class="fa-solid fa-gear"></i>
-                    Settings
-                </a>
+                
             </li>
 
             <li>
-                <a href="/">
-                    <i class="fa-solid fa-right-from-bracket"></i>
-                    Logout
-                </a>
-            </li>
+    <a href="#" onclick="logout()" class="logout-link">
+        <i class="fa-solid fa-right-from-bracket"></i>
+        Logout
+    </a>
+</li>
 
         </ul>
 
@@ -93,6 +90,62 @@
     </main>
 
 </div>
+<script>
+
+window.addEventListener("pageshow", function (event) {
+
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+
+        window.location.replace("/login");
+
+    }
+
+});
+
+</script>
+<script>
+
+const protectedPages = [
+    "/dashboard",
+    "/rooms-page",
+    "/customers-page",
+    "/bookings-page",
+    "/admin-bookings",
+    "/admin-customers",
+    "/admin-reports"
+];
+
+if (
+    protectedPages.includes(window.location.pathname)
+) {
+
+    const token =
+        localStorage.getItem("token");
+
+    if (!token) {
+
+        window.location.replace("/login");
+
+    }
+}
+
+</script>
+<script>
+
+function logout() {
+
+    localStorage.removeItem("token");
+    localStorage.removeItem("name");
+    localStorage.removeItem("role");
+    localStorage.removeItem("user_id");
+    localStorage.removeItem("customerId");
+
+    window.location.href = "/logout";
+}
+
+</script>
 
 </body>
 </html>

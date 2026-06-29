@@ -1,171 +1,380 @@
 let allRooms = [];
+let filteredRooms = [];
 
+let currentPage = 1;
+const rowsPerPage = 6;
+const roomDate = document.getElementById("roomDate");
+
+const today = new Date();
+
+const yyyy = today.getFullYear();
+
+const mm = String(today.getMonth() + 1).padStart(2, "0");
+
+const dd = String(today.getDate()).padStart(2, "0");
+
+roomDate.value = `${yyyy}-${mm}-${dd}`;
+const token = localStorage.getItem("token");
+
+/* LOAD ROOMS */
 async function loadRooms() {
 
-    const response = await fetch(
-        "http://127.0.0.1:8000/rooms"
-    );
+    const selectedDate =
+        document.getElementById("roomDate").value;
+        console.log(selectedDate); 
 
-    allRooms = await response.json();
+    let url =
+        "http://127.0.0.1:8000/rooms";
 
-    displayRooms(allRooms);
+    if(selectedDate){
+
+        url +=
+            `?selected_date=${selectedDate}`;
+
+    }
+
+    const response =
+    await fetch(url, {
+        headers: {
+            "Authorization": `Bearer ${token}`
+        }
+    });
+
+    allRooms =
+        await response.json();
+
+    filteredRooms =
+        allRooms;
+
+    currentPage = 1;
+
+    displayRooms(filteredRooms);
 }
+/* DISPLAY ROOMS */
 
 function displayRooms(rooms) {
 
-    const tableBody =
-        document.querySelector("#roomsTable tbody");
 
-    tableBody.innerHTML = "";
+const tableBody =
+    document.querySelector(
+        "#roomsTable tbody"
+    );
 
-    rooms.forEach(room => {
+tableBody.innerHTML = "";
 
-        let statusClass = "";
+const start =
+    (currentPage - 1)
+    * rowsPerPage;
 
-        if (room.status.toLowerCase() === "available") {
+const end =
+    start + rowsPerPage;
 
-            statusClass = "available";
+const paginatedRooms =
+    rooms.slice(
+        start,
+        end
+    );
 
-        }
-        else if (
-            room.status.toLowerCase() === "occupied"
-        ) {
+paginatedRooms.forEach(room => {
 
-            statusClass = "occupied";
+    let statusClass = "";
 
-        }
-        else {
+    if(
+        room.status.toLowerCase()
+        === "available"
+    ){
 
-            statusClass = "maintenance";
+        statusClass =
+            "available";
 
-        }
+    }
 
-        tableBody.innerHTML += `
-            <tr>
+    else if(
+        room.status.toLowerCase()
+        === "occupied"
+    ){
 
-                <td>${room.room_number}</td>
+        statusClass =
+            "occupied";
 
-                <td>${room.room_type}</td>
+    }
 
-                <td>₹${room.price}</td>
+    else{
 
-                <td>
-                    <span class="status ${statusClass}">
-                        ${room.status}
-                    </span>
-                </td>
+        statusClass =
+            "maintenance";
 
-                <td>
+    }
 
-                    <i
-                        class="fa-solid fa-pen-to-square edit-btn"
-                        data-id="${room.room_id}">
-                    </i>
+    tableBody.innerHTML += `
 
-                    <i
-                        class="fa-solid fa-trash delete-btn"
-                        data-id="${room.room_id}">
-                    </i>
+    <tr>
 
-                </td>
+        <td>
+            ${room.room_number}
+        </td>
 
-            </tr>
-        `;
-    });
+        <td>
+            ${room.room_type}
+        </td>
+
+        <td>
+            ₹${room.price}
+        </td>
+
+        <td>
+
+            <span
+                class="
+                status
+                ${statusClass}
+                "
+            >
+                ${room.status}
+            </span>
+
+        </td>
+
+        <td>
+
+            <i
+                class="
+                fa-solid
+                fa-pen-to-square
+                edit-btn
+                "
+                data-id="${room.room_id}"
+            ></i>
+
+            <i
+                class="
+                fa-solid
+                fa-trash
+                delete-btn
+                "
+                data-id="${room.room_id}"
+            ></i>
+
+        </td>
+
+    </tr>
+
+    `;
+});
+
+renderPagination(rooms);
+
+
+}
+
+/* PAGINATION */
+
+function renderPagination(rooms){
+
+
+const totalPages =
+    Math.ceil(
+        rooms.length /
+        rowsPerPage
+    );
+
+const pagination =
+    document.getElementById(
+        "pagination"
+    );
+
+pagination.innerHTML = "";
+
+if(totalPages <= 1){
+
+    return;
+
+}
+
+for(
+    let i = 1;
+    i <= totalPages;
+    i++
+){
+
+    pagination.innerHTML += `
+
+    <button
+        class="
+        page-btn
+        ${i === currentPage ? 'active' : ''}
+        "
+        onclick="
+        changePage(${i})
+        "
+    >
+        ${i}
+    </button>
+
+    `;
+}
+
+
+}
+
+function changePage(page){
+
+
+currentPage = page;
+
+displayRooms(filteredRooms);
+
+
 }
 
 /* SEARCH */
 
 const searchInput =
-    document.querySelector(".table-controls input");
+document.querySelector(
+".table-controls input"
+);
 
-searchInput.addEventListener("keyup", () => {
+searchInput.addEventListener(
+"keyup",
+() => {
+
 
     const searchValue =
         searchInput.value.toLowerCase();
 
-    const filteredRooms =
+    filteredRooms =
         allRooms.filter(room =>
 
             room.room_number
-                .toString()
-                .includes(searchValue)
+            .toString()
+            .includes(searchValue)
 
             ||
 
             room.room_type
-                .toLowerCase()
-                .includes(searchValue)
+            .toLowerCase()
+            .includes(searchValue)
 
         );
 
-    displayRooms(filteredRooms);
+    currentPage = 1;
 
-});
+    displayRooms(
+        filteredRooms
+    );
+
+}
+
+);
 
 /* FILTER */
 
 const filterSelect =
-    document.querySelector(".table-controls select");
+document.querySelector(
+".table-controls select"
+);
 
-filterSelect.addEventListener("change", () => {
+filterSelect.addEventListener(
+"change",
+() => {
 
     const selectedStatus =
         filterSelect.value.toLowerCase();
 
-    if (selectedStatus === "all status") {
+    if(
+        selectedStatus ===
+        "all status"
+    ){
 
-        displayRooms(allRooms);
+        filteredRooms =
+            allRooms;
 
-        return;
     }
 
-    const filteredRooms =
-        allRooms.filter(room =>
+    else{
 
-            room.status.toLowerCase() ===
-            selectedStatus
+        filteredRooms =
+            allRooms.filter(room =>
 
-        );
+                room.status
+                .toLowerCase()
+                === selectedStatus
 
-    displayRooms(filteredRooms);
+            );
 
-});
+    }
+
+    currentPage = 1;
+
+    displayRooms(
+        filteredRooms
+    );
+
+}
+
+);
 
 /* MODAL */
 
 const addRoomBtn =
-    document.querySelector(".add-room-btn");
+document.querySelector(
+".add-room-btn"
+);
 
 const modal =
-    document.getElementById("addRoomModal");
+document.getElementById(
+"addRoomModal"
+);
 
 const closeModal =
-    document.getElementById("closeModal");
+document.getElementById(
+"closeModal"
+);
 
-addRoomBtn.addEventListener("click", () => {
+addRoomBtn.addEventListener(
+"click",
+() => {
+
 
     roomForm.reset();
 
-    document.getElementById("roomId").value = "";
+    document.getElementById(
+        "roomId"
+    ).value = "";
 
-    modal.style.display = "flex";
+    modal.style.display =
+        "flex";
 
-});
+}
 
-closeModal.addEventListener("click", () => {
 
-    modal.style.display = "none";
+);
 
-});
+closeModal.addEventListener(
+"click",
+() => {
+
+
+    modal.style.display =
+        "none";
+
+}
+
+
+);
 
 /* EDIT ROOM */
 
-document.addEventListener("click", (e) => {
+document.addEventListener(
+"click",
+(e) => {
 
-    if (
-        e.target.classList.contains("edit-btn")
-    ) {
+
+    if(
+        e.target.classList.contains(
+            "edit-btn"
+        )
+    ){
 
         const roomId =
             e.target.dataset.id;
@@ -174,189 +383,229 @@ document.addEventListener("click", (e) => {
             allRooms.find(
 
                 room =>
-                room.room_id == roomId
+                room.room_id ==
+                roomId
 
             );
 
         document.getElementById(
             "roomId"
-        ).value = room.room_id;
+        ).value =
+            room.room_id;
 
         document.getElementById(
             "roomNumber"
-        ).value = room.room_number;
+        ).value =
+            room.room_number;
 
         document.getElementById(
             "roomType"
-        ).value = room.room_type;
+        ).value =
+            room.room_type;
 
         document.getElementById(
             "roomPrice"
-        ).value = room.price;
+        ).value =
+            room.price;
 
         document.getElementById(
             "roomStatus"
-        ).value = room.status;
+        ).value =
+            room.status;
 
-        modal.style.display = "flex";
+        modal.style.display =
+            "flex";
     }
 
-});
+}
+
+
+);
 
 /* ADD + UPDATE ROOM */
 
 const roomForm =
-    document.getElementById("roomForm");
+document.getElementById(
+"roomForm"
+);
 
 roomForm.addEventListener(
-    "submit",
-    async (e) => {
+"submit",
+async (e) => {
 
-        e.preventDefault();
 
-        const roomId =
-            document.getElementById(
-                "roomId"
-            ).value;
+    e.preventDefault();
 
-        const roomData = {
-
-            room_number:
-                document.getElementById(
-                    "roomNumber"
-                ).value,
-
-            room_type:
-                document.getElementById(
-                    "roomType"
-                ).value,
-
-            price:
-                parseFloat(
-
-                    document.getElementById(
-                        "roomPrice"
-                    ).value
-
-                ),
-
-            status:
-                document.getElementById(
-                    "roomStatus"
-                ).value
-
-        };
-
-        let response;
-
-        if (roomId) {
-
-            response =
-                await fetch(
-
-                    `http://127.0.0.1:8000/rooms/${roomId}`,
-
-                    {
-                        method: "PUT",
-
-                        headers: {
-                            "Content-Type":
-                                "application/json"
-                        },
-
-                        body:
-                            JSON.stringify(
-                                roomData
-                            )
-                    }
-
-                );
-
-        }
-        else {
-
-            response =
-                await fetch(
-
-                    "http://127.0.0.1:8000/rooms",
-
-                    {
-                        method: "POST",
-
-                        headers: {
-                            "Content-Type":
-                                "application/json"
-                        },
-
-                        body:
-                            JSON.stringify(
-                                roomData
-                            )
-                    }
-
-                );
-        }
-
-        const result =
-            await response.json();
-
-        alert(result.message);
-
-        roomForm.reset();
-
+    const roomId =
         document.getElementById(
             "roomId"
-        ).value = "";
+        ).value;
 
-        modal.style.display = "none";
+    const roomData = {
 
-        loadRooms();
+        room_number:
+            document.getElementById(
+                "roomNumber"
+            ).value,
+
+        room_type:
+            document.getElementById(
+                "roomType"
+            ).value,
+
+        price:
+            parseFloat(
+
+                document.getElementById(
+                    "roomPrice"
+                ).value
+
+            ),
+
+        status:
+            document.getElementById(
+                "roomStatus"
+            ).value
+
+    };
+
+    let response;
+    console.log(roomData);
+
+    if(roomId){
+
+        response =
+            await fetch(
+
+                `http://127.0.0.1:8000/rooms/${roomId}`,
+
+                {
+                    method:"PUT",
+
+                    headers:{
+    "Content-Type":"application/json",
+    "Authorization": `Bearer ${token}`
+},
+                    body:
+                    JSON.stringify(
+                        roomData
+                    )
+                }
+
+            );
+
     }
+
+    else{
+
+        response =
+            await fetch(
+
+                "http://127.0.0.1:8000/rooms",
+
+                {
+                    method:"POST",
+
+                    headers:{
+    "Content-Type":"application/json",
+    "Authorization": `Bearer ${token}`
+},
+
+                    body:
+                    JSON.stringify(
+                        roomData
+                    )
+                }
+
+            );
+    }
+
+    const result =
+        await response.json();
+
+    alert(
+        result.message
+    );
+
+    roomForm.reset();
+
+    document.getElementById(
+        "roomId"
+    ).value = "";
+
+    modal.style.display =
+        "none";
+    
+
+    loadRooms();
+
+}
+
+
 );
 
 /* DELETE ROOM */
 
 document.addEventListener(
-    "click",
-    async (e) => {
+"click",
+async (e) => {
 
-        if (
-            e.target.classList.contains(
-                "delete-btn"
-            )
-        ) {
 
-            const roomId =
-                e.target.dataset.id;
+    if(
+        e.target.classList.contains(
+            "delete-btn"
+        )
+    ){
 
-            const confirmDelete =
-                confirm(
-                    "Are you sure you want to delete this room?"
-                );
+        const roomId =
+            e.target.dataset.id;
 
-            if (!confirmDelete) {
+        const confirmDelete =
+            confirm(
+                "Are you sure you want to delete this room?"
+            );
 
-                return;
-            }
+        if(!confirmDelete){
 
-            const response =
-                await fetch(
+            return;
 
-                    `http://127.0.0.1:8000/rooms/${roomId}`,
-
-                    {
-                        method: "DELETE"
-                    }
-
-                );
-
-            const result =
-                await response.json();
-
-            alert(result.message);
-
-            loadRooms();
         }
+
+        const response =
+            await fetch(
+
+                `http://127.0.0.1:8000/rooms/${roomId}`,
+
+                {
+    method:"DELETE",
+    headers:{
+        "Authorization": `Bearer ${token}`
+    }
+}
+            );
+
+        const result =
+            await response.json();
+
+        alert(
+            result.message
+        );
+
+        loadRooms();
+
+    }
+
+}
+
+
+);
+roomDate.addEventListener(
+    "change",
+    () => {
+
+        console.log("Date Changed");
+
+        loadRooms();
 
     }
 );

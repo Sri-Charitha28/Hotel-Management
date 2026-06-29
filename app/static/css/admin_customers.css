@@ -104,7 +104,7 @@ table{
     border-collapse:collapse;
 }
 
-th{
+.customers-container table th{
 
     background:#f8fafc;
 
@@ -117,7 +117,7 @@ th{
     font-weight:600;
 }
 
-td{
+.customers-container table td{
 
     padding:18px;
 
@@ -167,16 +167,16 @@ td:nth-child(5){
 
 .actions{
 
-    display:flex;
+    white-space:nowrap;
 
-    justify-content:center;
-
-    align-items:center;
-
-    gap:18px;
+    text-align:center;
 }
 
 .actions i{
+
+    display:inline-block;
+
+    margin:0 8px;
 
     cursor:pointer;
 

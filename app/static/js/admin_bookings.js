@@ -1,20 +1,87 @@
 let allBookings = [];
-
+let filteredBookings = [];
 let selectedBooking = null;
+const token = localStorage.getItem("token");
+
+if (!token) {
+
+    window.location.replace("/login");
+
+}
+
+let currentPage = 1;
+const rowsPerPage = 6;
+const bookingDate =
+    document.getElementById("bookingDate");
+
+const showHistory =
+    document.getElementById("showHistory");
+
+
+const today = new Date();
+
+bookingDate.value =
+    today.toISOString().split("T")[0];
 
 async function loadBookings() {
 
     try {
 
-        const response =
-            await fetch(
-                "http://127.0.0.1:8000/admin-bookings-data"
-            );
+        let url =
+    "http://127.0.0.1:8000/admin-bookings-data";
 
+if(showHistory.checked){
+
+    url +=
+        "?history=true";
+
+}
+else{
+
+    url +=
+        `?selected_date=${bookingDate.value}`;
+
+}
+        const response =
+    await fetch(
+        url,
+        {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }
+    );
+
+if (response.status === 401) {
+
+    alert("Session Expired");
+
+    localStorage.clear();
+
+    window.location.replace("/login");
+
+    return;
+
+}
+
+if (response.status === 403) {
+
+    alert("Admin Access Only");
+
+    window.location.replace("/home");
+
+    return;
+
+}
         allBookings =
             await response.json();
 
-        renderBookings(allBookings);
+        filteredBookings =
+            allBookings;
+
+        currentPage = 1;
+
+        renderBookings(filteredBookings);
 
     }
 
@@ -25,7 +92,6 @@ async function loadBookings() {
     }
 
 }
-
 function renderBookings(bookings){
 
     const table =
@@ -35,7 +101,21 @@ function renderBookings(bookings){
 
     table.innerHTML = "";
 
-    bookings.forEach(booking => {
+    const start =
+        (currentPage - 1) *
+        rowsPerPage;
+
+    const end =
+        start +
+        rowsPerPage;
+
+    const paginatedBookings =
+        bookings.slice(
+            start,
+            end
+        );
+
+    paginatedBookings.forEach(booking => {
 
         let statusClass =
             booking.booking_status.toLowerCase();
@@ -94,6 +174,65 @@ function renderBookings(bookings){
 
     });
 
+    renderPagination(bookings);
+
+}
+
+function renderPagination(bookings){
+
+    const totalPages =
+        Math.ceil(
+            bookings.length /
+            rowsPerPage
+        );
+
+    const pagination =
+        document.getElementById(
+            "pagination"
+        );
+
+    pagination.innerHTML = "";
+
+    if(totalPages <= 1){
+
+        return;
+
+    }
+
+    for(
+        let i = 1;
+        i <= totalPages;
+        i++
+    ){
+
+        pagination.innerHTML += `
+
+        <button
+            class="
+            page-btn
+            ${i === currentPage ? 'active' : ''}
+            "
+            onclick="
+            changePage(${i})
+            "
+        >
+            ${i}
+        </button>
+
+        `;
+
+    }
+
+}
+
+function changePage(page){
+
+    currentPage = page;
+
+    renderBookings(
+        filteredBookings
+    );
+
 }
 
 function editBooking(id){
@@ -127,6 +266,7 @@ function editBooking(id){
     document.getElementById(
         "editModal"
     ).style.display = "flex";
+
 }
 
 async function cancelBooking(id){
@@ -136,10 +276,10 @@ async function cancelBooking(id){
             "Cancel this booking?"
         );
 
-    if(
-        !confirmDelete
-    ){
+    if(!confirmDelete){
+
         return;
+
     }
 
     try{
@@ -148,8 +288,13 @@ async function cancelBooking(id){
             await fetch(
                 "http://127.0.0.1:8000/bookings/" + id,
                 {
-                    method:"DELETE"
-                }
+    method:"DELETE",
+
+    headers:{
+        Authorization:`Bearer ${token}`
+    }
+
+}
             );
 
         const data =
@@ -171,6 +316,8 @@ async function cancelBooking(id){
 
 }
 
+/* SEARCH */
+
 document
 .getElementById(
     "searchBooking"
@@ -182,7 +329,7 @@ document
         const value =
             this.value.toLowerCase();
 
-        const filtered =
+        filteredBookings =
             allBookings.filter(
                 booking =>
 
@@ -195,14 +342,19 @@ document
                 booking.room_number
                 .toString()
                 .includes(value)
+
             );
 
+        currentPage = 1;
+
         renderBookings(
-            filtered
+            filteredBookings
         );
 
     }
 );
+
+/* FILTER */
 
 document
 .getElementById(
@@ -219,35 +371,39 @@ document
             status === "all"
         ){
 
-            renderBookings(
-                allBookings
-            );
+            filteredBookings =
+                allBookings;
 
-            return;
         }
 
-        const filtered =
-            allBookings.filter(
-                booking =>
+        else{
 
-                booking.booking_status
-                .toLowerCase()
-                === status
-            );
+            filteredBookings =
+                allBookings.filter(
+                    booking =>
+
+                    booking.booking_status
+                    .toLowerCase()
+                    === status
+                );
+
+        }
+
+        currentPage = 1;
 
         renderBookings(
-            filtered
+            filteredBookings
         );
 
     }
 );
 
-loadBookings();
 function closeModal(){
 
     document.getElementById(
         "editModal"
     ).style.display = "none";
+
 }
 
 async function updateBooking(){
@@ -280,6 +436,7 @@ async function updateBooking(){
                 document.getElementById(
                     "editStatus"
                 ).value
+
         };
 
         const response =
@@ -290,9 +447,12 @@ async function updateBooking(){
                     method:"PUT",
 
                     headers:{
-                        "Content-Type":
-                        "application/json"
-                    },
+
+    "Content-Type":"application/json",
+
+    Authorization:`Bearer ${token}`
+
+},
 
                     body:JSON.stringify(
                         payload
@@ -318,4 +478,39 @@ async function updateBooking(){
         console.log(error);
 
     }
+
 }
+bookingDate.addEventListener(
+
+    "change",
+
+    () => {
+
+        loadBookings();
+
+    }
+
+);
+showHistory.addEventListener(
+
+    "change",
+
+    () => {
+
+        if(showHistory.checked){
+
+            bookingDate.disabled = true;
+
+        }
+        else{
+
+            bookingDate.disabled = false;
+
+        }
+
+        loadBookings();
+
+    }
+
+);
+loadBookings();

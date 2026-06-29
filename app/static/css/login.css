@@ -82,8 +82,7 @@ body{
     font-weight: 600;
 }
 
-.form-card input[type="email"],
-.form-card input[type="password"]{
+.form-card input[type="email"]{
     width: 100%;
     padding: 18px;
     border: 1px solid #d6d6d6;
@@ -162,4 +161,49 @@ body{
 
 .options a:hover{
     text-decoration: underline;
+}
+
+.password-wrapper{
+
+    position:relative;
+
+    width:100%;
+}
+
+.password-wrapper input{
+
+    width:100%;
+
+    padding:18px;
+
+    padding-right:55px;
+
+    border:1px solid #d6d6d6;
+
+    border-radius:10px;
+
+    font-size:16px;
+}
+
+.password-wrapper i{
+
+    position:absolute;
+
+    right:18px;
+
+    top:50%;
+
+    transform:translateY(-50%);
+
+    cursor:pointer;
+
+    color:#666;
+
+    font-size:18px;
+
+    z-index:10;
+}
+.password-wrapper i:hover{
+
+    color:#163b7d;
 }

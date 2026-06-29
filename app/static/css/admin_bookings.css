@@ -83,7 +83,7 @@ table{
     border-collapse:collapse;
     table-layout:fixed;
 }
-th{
+.bookings-container table th{
 
     background:#f8fafc;
 
@@ -96,8 +96,7 @@ th{
     color:#111827;
 }
 
-td{
-
+.bookings-container table td{
     padding:18px;
 
     text-align:center;
@@ -196,19 +195,18 @@ td:nth-child(7){
 }
 
 /* ACTIONS */
-
 .actions{
 
-    display:flex;
+    white-space:nowrap;
 
-    justify-content:center;
-
-    align-items:center;
-
-    gap:18px;
+    text-align:center;
 }
 
 .actions i{
+
+    display:inline-block;
+
+    margin:0 8px;
 
     cursor:pointer;
 
@@ -335,4 +333,59 @@ td:nth-child(7){
     cursor:pointer;
 
     text-align:right;
+}
+.page-btn{
+
+    padding:10px 14px;
+
+    margin-left:6px;
+
+    border:none;
+
+    border-radius:8px;
+
+    background:#e5e7eb;
+
+    cursor:pointer;
+
+    font-weight:600;
+}
+
+.page-btn.active{
+
+    background:#4f46e5;
+
+    color:white;
+}
+
+.page-btn:hover{
+
+    background:#6366f1;
+
+    color:white;
+}
+.history-toggle{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    color:#374151;
+
+}
+
+.history-toggle input{
+
+    width:18px;
+
+    height:18px;
+
+    cursor:pointer;
+
 }

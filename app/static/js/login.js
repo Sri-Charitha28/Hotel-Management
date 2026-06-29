@@ -134,3 +134,52 @@ else {
         }
 
     });
+const passwordField =
+    document.getElementById(
+        "password"
+    );
+
+const togglePassword =
+    document.getElementById(
+        "togglePassword"
+    );
+
+togglePassword.addEventListener(
+    "click",
+    function(){
+
+        if(
+            passwordField.type ===
+            "password"
+        ){
+
+            passwordField.type =
+                "text";
+
+            this.classList.remove(
+                "fa-eye"
+            );
+
+            this.classList.add(
+                "fa-eye-slash"
+            );
+
+        }
+
+        else{
+
+            passwordField.type =
+                "password";
+
+            this.classList.remove(
+                "fa-eye-slash"
+            );
+
+            this.classList.add(
+                "fa-eye"
+            );
+
+        }
+
+    }
+);

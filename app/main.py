@@ -8,8 +8,20 @@ from app.routes.room_routes import router as room_router
 from app.routes.customer_routes import router as customer_router
 from app.routes.booking_routes import router as booking_router
 from app.routes.user_routes import router as user_router
+from fastapi import FastAPI, Request
+from starlette.middleware.sessions import SessionMiddleware
+from fastapi import Depends
+from app.auth.oauth2 import get_current_admin
+
 
 app = FastAPI()
+
+app.add_middleware(
+    SessionMiddleware,
+    secret_key="hotel_management_secret"
+)
+
+
 
 # ---------------- CORS ----------------
 
@@ -43,16 +55,22 @@ async def login_page(request: Request):
     )
 
 
+from fastapi.responses import HTMLResponse
+
 @app.get("/dashboard", response_class=HTMLResponse)
 async def dashboard_page(request: Request):
-    return templates.TemplateResponse(
+
+    response = templates.TemplateResponse(
         request=request,
         name="dashboard.html",
-        context={
-            "active_page": "dashboard"
-        }
+        context={"active_page": "dashboard"}
     )
 
+    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    response.headers["Pragma"] = "no-cache"
+    response.headers["Expires"] = "0"
+
+    return response
 
 @app.get("/rooms-page", response_class=HTMLResponse)
 async def rooms_page(request: Request):
@@ -125,4 +143,40 @@ async def booking_form_page(request: Request):
     return templates.TemplateResponse(
         request=request,
         name="booking_form.html"
+    )
+@app.get("/forget-password", response_class=HTMLResponse)
+async def forget_password_page(request: Request):
+
+    return templates.TemplateResponse(
+        request=request,
+        name="forget_password.html"
+    )
+@app.get("/verify-otp", response_class=HTMLResponse)
+async def verify_otp_page(request: Request):
+
+    return templates.TemplateResponse(
+        request=request,
+        name="verify_otp.html"
+    )
+@app.get("/reset-password", response_class=HTMLResponse)
+async def reset_password_page(request: Request):
+
+    return templates.TemplateResponse(
+        request=request,
+        name="reset_password.html"
+    )
+@app.get(
+    "/password-reset-successful",
+    response_class=HTMLResponse
+)
+async def password_reset_success_page(
+    request: Request
+):
+
+    return templates.TemplateResponse(
+
+        request=request,
+
+        name="password_reset_successful.html"
+
     )

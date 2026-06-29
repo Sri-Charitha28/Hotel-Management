@@ -6,6 +6,10 @@ from app.database.db import SessionLocal
 from fastapi import Query
 from app.models.booking import Booking
 from datetime import date
+from fastapi import Request
+from fastapi.responses import RedirectResponse
+from fastapi import Depends
+from app.auth.oauth2 import get_current_admin
 
 templates = Jinja2Templates(directory="app/templates")
 
@@ -17,31 +21,48 @@ router = APIRouter()
 
 
 # ---------------- GET ALL ROOMS ----------------
-
 @router.get("/rooms")
-def get_rooms():
+def get_rooms(
+    selected_date: date | None = Query(None),
+    current_user: dict = Depends(get_current_admin)
+):
 
     db = SessionLocal()
 
-    #rooms = db.query(Room).all()
     rooms = db.query(Room).order_by(Room.room_id).all()
-    
+
     result = []
 
     for room in rooms:
+
+        status = room.status
+
+        if selected_date:
+
+            booking = db.query(Booking).filter(
+                Booking.room_id == room.room_id,
+                Booking.check_in <= selected_date,
+                Booking.check_out > selected_date,
+                Booking.booking_status == "booked"
+            ).first()
+
+            if booking:
+                status = "occupied"
+
         result.append(
             {
                 "room_id": room.room_id,
                 "room_number": room.room_number,
                 "room_type": room.room_type,
                 "price": float(room.price),
-                "status": room.status
+                "status": status
             }
         )
 
     db.close()
 
     return result
+
 @router.get("/available-rooms")
 def get_available_rooms(
     check_in: date = Query(...),
@@ -87,7 +108,10 @@ def get_available_rooms(
 # ---------------- CREATE ROOM ----------------
 
 @router.post("/rooms")
-def create_room(room: RoomCreate):
+def create_room(
+    room: RoomCreate,
+    current_user: dict = Depends(get_current_admin)
+):
 
     db = SessionLocal()
 
@@ -121,7 +145,11 @@ def create_room(room: RoomCreate):
 # ---------------- UPDATE ROOM ----------------
 
 @router.put("/rooms/{room_id}")
-def update_room(room_id: int, room: RoomCreate):
+def update_room(
+    room_id: int,
+    room: RoomCreate,
+    current_user: dict = Depends(get_current_admin)
+):
 
     db = SessionLocal()
 
@@ -159,8 +187,10 @@ def update_room(room_id: int, room: RoomCreate):
 # ---------------- DELETE ROOM ----------------
 
 @router.delete("/rooms/{room_id}")
-def delete_room(room_id: int):
-
+def delete_room(
+    room_id: int,
+    current_user: dict = Depends(get_current_admin)
+):
     db = SessionLocal()
 
     room = db.query(Room).filter(
@@ -222,16 +252,50 @@ def reports_page(request: Request):
         request=request,
         name="admin_reports.html",
         context={
-            "active_page": "reports"
+            "active_page":"reports"
         }
     )
-@router.get("/admin-settings")
-def admin_settings_page(request: Request):
 
     return templates.TemplateResponse(
         request=request,
-        name="admin_settings.html",
+        name="admin_reports.html",
         context={
-            "active_page": "settings"
+            "active_page":"reports"
         }
     )
+
+@router.get("/logout")
+def logout(request: Request):
+
+    request.session.clear()
+
+    return RedirectResponse(
+        url="/login",
+        status_code=302
+    )
+@router.get("/customer-rooms-data")
+def get_customer_rooms():
+
+    db = SessionLocal()
+
+    rooms = db.query(Room).order_by(
+        Room.room_id
+    ).all()
+
+    result = []
+
+    for room in rooms:
+
+        result.append(
+            {
+                "room_id": room.room_id,
+                "room_number": room.room_number,
+                "room_type": room.room_type,
+                "price": float(room.price),
+                "status": room.status
+            }
+        )
+
+    db.close()
+
+    return result

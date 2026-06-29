@@ -71,7 +71,10 @@
         type="text"
         placeholder="Search rooms..."
     >
-
+ <input
+        type="date"
+        id="roomDate"
+    >
     <select>
         <option>All Status</option>
         <option>Available</option>
@@ -100,11 +103,13 @@
         </tbody>
 
     </table>
+    </div>
+    <div id="pagination"></div>
 
-</div>
+
 
 <script src="{{ url_for('static', path='js/rooms.js') }}"></script>
-<script src="{{ url_for('static', path='js/dashboard.js') }}"></script>
+
 
 
 {% endblock %}

@@ -1,6 +1,13 @@
 let allCustomers = [];
 
 let selectedCustomer = null;
+const token = localStorage.getItem("token");
+
+if (!token) {
+
+    window.location.replace("/login");
+
+}
 
 let currentPage = 1;
 
@@ -14,9 +21,36 @@ async function loadCustomers() {
     try {
 
         const response =
-            await fetch(
-                "http://127.0.0.1:8000/customers"
-            );
+    await fetch(
+        "http://127.0.0.1:8000/customers",
+        {
+            headers:{
+                Authorization:`Bearer ${token}`
+            }
+        }
+    );
+
+if(response.status === 401){
+
+    alert("Session Expired");
+
+    localStorage.clear();
+
+    window.location.replace("/login");
+
+    return;
+
+}
+
+if(response.status === 403){
+
+    alert("Admin Access Only");
+
+    window.location.replace("/home");
+
+    return;
+
+}
 
         allCustomers =
             await response.json();
@@ -265,10 +299,12 @@ async function addCustomer(){
                     method:"POST",
 
                     headers:{
-                        "Content-Type":
-                        "application/json"
-                    },
 
+    "Content-Type":"application/json",
+
+    Authorization:`Bearer ${token}`
+
+},
                     body:
                     JSON.stringify(
                         payload
@@ -380,9 +416,12 @@ async function updateCustomer(){
                     method:"PUT",
 
                     headers:{
-                        "Content-Type":
-                        "application/json"
-                    },
+
+    "Content-Type":"application/json",
+
+    Authorization:`Bearer ${token}`
+
+},
 
                     body:
                     JSON.stringify(
@@ -434,8 +473,13 @@ async function deleteCustomer(id){
             await fetch(
                 "http://127.0.0.1:8000/customers/" + id,
                 {
-                    method:"DELETE"
-                }
+    method:"DELETE",
+
+    headers:{
+        Authorization:`Bearer ${token}`
+    }
+
+}
             );
 
         const data =

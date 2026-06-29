@@ -19,3 +19,7 @@ class CustomerResponse(CustomerBase):
 class ChangePassword(BaseModel):
     current_password: str
     new_password: str
+
+class ResetPassword(BaseModel):
+
+    new_password: str

@@ -1,0 +1,103 @@
+@import url("login.css");
+
+.container{
+
+    width:100%;
+
+    min-height:100vh;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    background:#f4f6f9;
+
+}
+
+.card{
+
+    width:450px;
+
+    background:white;
+
+    padding:40px;
+
+    border-radius:15px;
+
+    box-shadow:0 8px 20px rgba(0,0,0,0.15);
+
+    text-align:center;
+
+}
+
+.card h2{
+
+    font-size:38px;
+
+    color:#163b7d;
+
+    margin-bottom:15px;
+
+}
+
+.card p{
+
+    color:#666;
+
+    margin-bottom:30px;
+
+    line-height:1.6;
+
+}
+
+.card input{
+
+    width:100%;
+
+    padding:18px;
+
+    border:1px solid #d6d6d6;
+
+    border-radius:10px;
+
+    font-size:18px;
+
+    text-align:center;
+
+    letter-spacing:8px;
+
+    margin-bottom:25px;
+
+}
+
+.card button{
+
+    width:100%;
+
+    padding:18px;
+
+    border:none;
+
+    background:#163b7d;
+
+    color:white;
+
+    border-radius:10px;
+
+    font-size:18px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+.card button:hover{
+
+    background:#0f2c5c;
+
+}

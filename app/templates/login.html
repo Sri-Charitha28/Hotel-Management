@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+    <link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <link rel="stylesheet"
           href="{{ url_for('static', path='css/login.css') }}">
@@ -69,15 +71,23 @@
 
                 <label>Password</label>
 
-                <input
-                    type="password"
-                    id="password"
-                    name="password"
-                    placeholder="Enter your password"
-                    autocomplete="new-password"
-                    required
-                >
+<div class="password-wrapper">
 
+    <input
+        type="password"
+        id="password"
+        name="password"
+        placeholder="Enter your password"
+        autocomplete="new-password"
+        required
+    >
+
+    <i
+        class="fa-solid fa-eye"
+        id="togglePassword"
+    ></i>
+
+</div>
                 <!-- Remember Me & Forgot Password -->
 
                 <div class="options">
@@ -93,7 +103,7 @@
 
                     </label>
 
-                    <a href="#">
+                    <a href="/forget-password">
                         Forgot Password?
                     </a>
 

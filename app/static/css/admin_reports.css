@@ -536,3 +536,117 @@ canvas{
     0 20px 40px
     rgba(79,70,229,0.18);
 }
+.modal{
+
+    display:none;
+
+    position:fixed;
+
+    top:0;
+
+    left:0;
+
+    width:100%;
+
+    height:100%;
+
+    background:rgba(0,0,0,.5);
+
+    justify-content:center;
+
+    align-items:center;
+
+    z-index:9999;
+
+}
+
+.modal-content{
+
+    background:white;
+
+    width:420px;
+
+    padding:30px;
+
+    border-radius:12px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:15px;
+
+}
+
+.modal-content input{
+
+    padding:12px;
+
+    border:1px solid #ddd;
+
+    border-radius:8px;
+
+}
+
+.modal-buttons{
+
+    display:flex;
+
+    gap:12px;
+
+}
+
+.modal-buttons button{
+
+    flex:1;
+
+    padding:12px;
+
+    border:none;
+
+    border-radius:8px;
+
+    cursor:pointer;
+
+}
+
+.modal-buttons button:last-child{
+
+    background:#4f46e5;
+
+    color:white;
+
+}
+.modal-buttons{
+    display:flex;
+    gap:12px;
+    margin-top:20px;
+}
+
+.modal-buttons button{
+    flex:1;
+    border:none;
+    border-radius:8px;
+    padding:12px;
+    cursor:pointer;
+    font-size:15px;
+    font-weight:600;
+}
+
+.pdf-btn{
+    background:#dc2626;
+    color:white;
+}
+
+.pdf-btn:hover{
+    background:#b91c1c;
+}
+
+.excel-btn{
+    background:#16a34a;
+    color:white;
+}
+
+.excel-btn:hover{
+    background:#15803d;
+}

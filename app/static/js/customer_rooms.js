@@ -19,7 +19,7 @@ async function loadRooms() {
             );
 
         let url =
-            "http://127.0.0.1:8000/rooms";
+            "http://127.0.0.1:8000/customer-rooms-data";
 
         if (
             checkIn &&

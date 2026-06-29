@@ -15,9 +15,36 @@ async function loadBookings() {
             localStorage.getItem("customerId");
 
         const response =
-            await fetch(
-                `http://127.0.0.1:8000/my-bookings/${customerId}`
-            );
+    await fetch(
+        `http://127.0.0.1:8000/my-bookings/${customerId}`,
+        {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }
+    );
+
+if (response.status === 401) {
+
+    alert("Session Expired");
+
+    localStorage.clear();
+
+    window.location.replace("/login");
+
+    return;
+
+}
+
+if (response.status === 403) {
+
+    alert("Access Denied");
+
+    window.location.replace("/home");
+
+    return;
+
+}
 
         allBookings =
             await response.json();
@@ -499,13 +526,17 @@ async function cancelBooking(
     try {
 
         const response =
-            await fetch(
-                `http://127.0.0.1:8000/bookings/${bookingId}`,
-                {
-                    method:
-                        "DELETE"
-                }
-            );
+    await fetch(
+        `http://127.0.0.1:8000/bookings/${bookingId}`,
+        {
+            method: "DELETE",
+
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+
+        }
+    );
 
         const data =
             await response.json();
